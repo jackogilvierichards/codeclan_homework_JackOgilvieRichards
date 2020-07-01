@@ -1,0 +1,87 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+Data Types Homework
+Part 1
+Question 1
+
+```{r part_01_Q1_working}
+stock_prices <- c(23, 27, 23, 21, 34, 24, 25, 30, 37, 30)
+day_of_week <- rep(c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday"), times = 2)
+```
+
+Here I've created two vectors, one numerical (I have left them as decimals in case calculations would divide anything into a .5 term) and one with repeating characters (containing the days of the week). See below:
+
+```{r part_01_Q1_soln}
+stock_prices
+day_of_week
+```
+
+Question 2
+
+```{r part_01_Q2_working}
+day_of_week_factor <- factor(day_of_week)
+names(stock_prices) <- day_of_week
+named_stock_prices <- stock_prices
+```
+
+```{r part_01_Q2_soln}
+day_of_week_factor
+named_stock_prices
+```
+
+Similarly here, I've set variables for the factor of each day of the week, I might not understand that I'm doing with this as I write this sentence but I'll mention if I remember what factors are as I complete the homework. Another variable was the named stock prices, which I did by setting the names of the stock price vector I made in Q1 to day_of_week, which is ordered. As we can see, this leaves named_stock_prices as a lovely named vector. 
+
+Question 3 
+
+```{r part_01_Q3_working+soln}
+stock_data <- data.frame(day_of_week, named_stock_prices)
+View(stock_data)
+```
+
+Fairly self-explanatory, set a data frame to consist of a column of days of the week and the stock prices corrosponding to that day of the week. Viewing the data frame we can see that so far, all is calm. 
+
+Question 4
+
+```{r part_01_Q4_working}
+stock_list <- list(Stock_Value = stock_prices, Day = day_of_week, Data = stock_data)
+```
+
+```{r part_01_Q4_soln}
+stock_list
+```
+
+List was made, set names to the named elements as: Stock_Value, Day, Data.
+
+
+Part 2
+Question 1
+
+```{r part_02_Q1_working+soln}
+stock_prices[4:6]
+stock_prices[stock_prices > 30]
+```
+
+Question 2
+
+```{r part_02_Q2_working+soln}
+stock_data[ , "day_of_week"]
+stock_data[stock_prices<25, ]
+stock_data[ , 1]
+stock_data[3, ]
+stock_data[3, 1]
+```
+
+```{r part_02_Q4_working+soln}
+stock_list["Data"]
+```
+
+Might look at the extension in the morning - time for bed!
+
+
+
+
+
+
