@@ -1,0 +1,144 @@
+---
+title: "Homework - Jack Ogilvie-Richards - Week 1/Day 3"
+output: html_notebook
+---
+
+#Homework ----
+
+Here's my homework! If you're reading this I hope it's enjoyable!
+
+#Installing data sets: ----
+
+```{r "Installing Data"}
+install.packages('devtools')
+devtools::install_github('codeclan/CodeClanData')
+library(CodeClanData)
+```
+
+```{r "styler"}
+install.packages("styler")
+library(styler)
+```
+
+Also installed styler, promise I'll learn some of its functionality soon and hence I will install and load it each time. 
+
+
+#Setting up data ----
+
+1. Data Frame - Beer
+
+```{r "Beer Data"}
+beer_data <- data.frame(beer)
+View(beer_data)
+```
+
+2. Matrix - Temp
+
+```{r "Temperature"}
+temp_matrix <- matrix(temp, nrow = 106, ncol = 12)
+View(temp_matrix)
+```
+
+You may view this matrix however it is quite unreadable initially. 
+
+
+3. List - game_of_thrones
+
+```{r "Game of Thrones"}
+game_of_thrones_list <- list(game_of_thrones)
+View(game_of_thrones_list)
+```
+
+Thanks to the nesting of the pre-loaded list it's easy to see the various layers of nesting, with the bulk being in the nested list of characters and their gender. 
+
+#Analysis ----
+
+1. Beer Data
+
+To get a quick scope of this lovely database, let's figure out the range, marker values (mean, mode) and find some dope facts! 
+
+Looking at the View window of the beer data, you can see that ABV percentage, calories and carbohydrates are our numerical subsets, with Brand and Brewery as our non-parametric parameters (good tongue twister, that!). 
+
+Let's finally get some numbers!
+
+```{r Beer Analysis}
+str(beer_data)
+summary(beer_data)
+summary(as.numeric(beer_data[ , 4]))
+mean(beer_data[ , "percent"])
+mean(as.numeric(beer_data[ , 4]))
+max(beer_data[ , "percent"])
+max(as.numeric(beer_data[ , 4]))
+
+
+
+```
+
+```{r "Defining Beer Data Parameters"}
+min_ABV <- min(beer_data[ , "percent"])
+min_calories <- min(beer_data[ , "calories"])
+min_carbs <- min(beer_data[ , "carbohydrates"])
+max_ABV <- max(beer_data[ , "percent"])
+max_calories <- max(beer_data[ , "calories"])
+
+
+```
+
+
+Fact 1 - can a beer be as many calories as an average meal (400)?
+
+Fact 2 - what are the strongest beers with below average calorific content?
+
+
+2. Temperatures
+
+Let's have a look at the numbers again and see what interesting bits we can find!
+
+```{r Temperature Analysis}
+str(temp_matrix)
+summary(temp_matrix)
+
+
+```
+
+Fact 1 - the year of our coldest winter (min(December))
+
+```{r}
+
+```
+
+
+Fact 2 - Longest gap between summer temperatures being above average
+
+Fun Fact - likelihood of getting an above average peak summer (t-test I believe??)
+
+
+
+
+
+
+3. Game of Thrones
+
+
+What is the fraction of female characters in Game of Thrones
+
+
+```{r}
+summary(game_of_thrones_list)
+
+genders <- game_of_thrones_list["character"["gender"]]
+genders
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
