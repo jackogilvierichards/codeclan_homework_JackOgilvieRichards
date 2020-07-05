@@ -87,6 +87,11 @@ max_calories <- max(beer_data[ , "calories"])
 
 Fact 1 - can a beer be as many calories as an average meal (400)?
 
+```{r}
+
+```
+
+
 Fact 2 - what are the strongest beers with below average calorific content?
 
 
