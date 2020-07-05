@@ -1,5 +1,5 @@
 ---
-title: "Week 1 - weekend homework - Jack Ogilvie-Richards"
+title: ""
 output: html_notebook
 ---
 
