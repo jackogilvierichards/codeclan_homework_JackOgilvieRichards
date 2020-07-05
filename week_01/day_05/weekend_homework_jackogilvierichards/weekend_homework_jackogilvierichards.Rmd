@@ -1,0 +1,279 @@
+---
+title: "Week 1 - weekend homework - Jack Ogilvie-Richards"
+output: html_notebook
+---
+
+# Week 1 - R Programming - weekend homework
+# D4 Cohort - Jack Ogilvie-Richards
+# 2 MVP
+
+# 2.2 if statements and functions
+
+# 2.2.1
+
+Here we must write a function that multiplies all numbers by 15 and adds 4. 
+
+```{r multi_add_code}
+multi_add <- function(x){
+  
+  by_15 <- 15*x
+  add_4 <- by_15 + 4
+  return(add_4)
+
+}
+
+multi_add(1)
+multi_add(2)
+multi_add(3)
+
+```
+
+Here I have made a function which multiplies the input by 15, storing this value in a temporary value 'by_15'. I assign to a new value 'add_4' the sum of the 'by_15' value and 4.0. Once these are completed I return the 'add_4' value and close the function. 
+
+
+# 2.2.2
+
+Here we must write a function that returns “bird” if the input is “goose”, “duck” or “pigeon”, and returns “not bird” for all other input. 
+
+Let's give it a go:
+
+```{r is_it_a_bird code}
+
+is_it_a_bird <- function(animal){
+  bird_names <- c("goose", "duck", "pigeon")
+  if(animal %in% bird_names){
+    return("bird")
+  }
+  return("not bird")
+}
+
+is_it_a_bird("goose")
+is_it_a_bird("apple")
+is_it_a_bird(5)
+is_it_a_bird("seagull")
+
+```
+
+Inside my function I made a variable containing all the birds I'm interested in, making a Boolean statement that will return TRUE if my input 'animal' is in my vector of bird names, FALSE if it isn't. With a TRUE, the function returns 'bird', with a FALSE the function moves on from the if statement and returns 'not bird'. 
+
+
+# 2.2.3
+
+In this question we need to write a function which multiplies all numbers by 10. If the input isn’t a number, the function should return “Invalid input”. 
+
+```{r by_10_or_invalid code}
+
+by_10_or_invalid <- function(x) {
+  
+  if(class(x) == "numeric"){
+    x_by_10 <- 10*x
+    return(x_by_10)
+  }
+     
+  return("Invalid input")
+  
+}
+
+by_10_or_invalid(2)
+by_10_or_invalid(5.3)
+by_10_or_invalid("x")
+by_10_or_invalid(7)
+
+
+```
+
+Made a function that contained an internal if statement relying on whether the class of the input was a numeric. If so, multiply by 10 and store that in a value which is then returned. Otherwise the function simply moves onto the other return of an "Invalid input" statement. 
+
+
+# 2.3.1
+
+```{r library load 1}
+library(dplyr)
+```
+
+The 'dplyr' package has been added to use some of the functions needed for the following sections. 
+
+The first part has us looking to make a new vector which records whether a vector's elements are greater or less than or equal to 10, returning 'Big' and 'Small' respectively. 
+
+```{r scale_of_sizes code}
+
+sizes <- c(13, 15, 10, 8, 22)
+
+scale_of_sizes <- ifelse(sizes[ ] > 10, "Big", "Small")
+
+scale_of_sizes
+
+```
+
+Looks like it works!
+
+
+# 2.3.2
+
+Pretty simple recode() here:
+
+```{r animals for fruit code}
+
+fruit <- c("apple", "apple", "banana", "cherry", "cherry")
+
+ani_fruit <- recode(fruit, "apple" = "aplaca", "banana" = "bonobo", "cherry" = "chipmunk")
+
+ani_fruit
+
+```
+
+
+# 2.3.3
+
+Task: 
+
+The two vectors below show the ages at marriage of each member of a couple. The first elements of each vector correspond to the first couple, the second elements to the second couple, and so on.
+
+Create a new vector which is equal to “Wife older” whenever the wife’s age is highest “Husband older” when the husband’s age is highest “Same age” when they are the same age. 
+
+Solution:
+
+```{r marriage code}
+
+wife_age <- c(29L, 30L, 36L, 31L, 22L)
+husband_age <- c(28L, 35L, 32L, 31L, 29L)
+
+compare_age <- case_when(
+  wife_age > husband_age ~ "Wife older",
+  wife_age < husband_age ~ "Husband older",
+  wife_age == husband_age ~ "Same age"
+)
+
+compare_age
+
+```
+
+
+# 2.4 Loops
+
+List for following questions:
+
+```{r required list}
+
+my_list <- list(
+  4,
+  "apple",
+  10.5,
+  c("is", "an", "apple"),
+  "apple",
+  c("i", "like", "apples"),
+  8
+)
+
+```
+
+# 2.4.1
+
+Let's take a look at the list we're using:
+
+```{r look at list}
+my_list
+```
+
+```{r print loop}
+
+for(i in 1:length(my_list)){
+  ifelse(class(my_list[[i]]) == "character", print(my_list[i]), print("not a character"))
+}
+
+```
+
+Slightly more tricky one due to navigating the list - the method I used was recognising that while I use a for loop to go through all of the list's entries I'm still needing to change what is being returned on a condition. The 'ifelse' function is perfect for this, as with its condition checking whether each object of the list is of class 'character', if so returning the object, otherwise a negative statement. 
+
+
+# 2.4.2
+
+Task: 
+
+Once again write a loop that prints out character elements. This time if the element has a length() greater than one, paste() all the elements in that vector together into one big character vector.
+
+Solution: 
+
+```{r list check pasting code}
+
+
+for(i in 1:length(my_list)){
+  
+  if(class(my_list[[i]]) == "character"){
+    
+    if(length(my_list[[i]]) < 1){
+      pasted_obj <- paste(my_list[[i]], collapse = " ")
+      }
+    
+    return(pasted_obj)
+    
+  }
+  
+  return("not a character")
+  
+}
+
+```
+
+```{r}
+for(i in 1:length(my_list)){
+  
+  ifelse(class(my_list$i) == "character" | length(my_list$i) >= 1, print(paste(my_list[i], collapse = " ")), print("not a character"))
+
+
+  
+  }
+
+
+```
+
+
+ ifelse(length(my_list[[i]]) < 1, paste(my_list[[i]], " "), my_list[i])
+
+
+
+
+
+
+# Extensions
+
+3.4
+
+
+```{r}
+#setting base values
+x_i_minus_1 <- 0
+x_i <- 1
+sum_even_fib <- 0
+
+while(x_i < 4*10^6){ # while loop that ends when our new fib number exceeds 4 million
+  
+  x = x_i + x_i_minus_1
+  
+  if(x %% 2 == 0){sum_even_fib = sum_even_fib + x}
+  
+  x_i_minus_1 = x_i
+  
+  x_i = x
+  
+}
+  
+sum_even_fib
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
