@@ -199,39 +199,22 @@ Solution:
 
 for(i in 1:length(my_list)){
   
+  pasted_obj <- my_list[[i]]
   if(class(my_list[[i]]) == "character"){
     
-    if(length(my_list[[i]]) < 1){
+    if(length(my_list[[i]]) > 1){
       pasted_obj <- paste(my_list[[i]], collapse = " ")
       }
     
-    return(pasted_obj)
+  print(pasted_obj)
     
   }
   
-  return("not a character")
+  print("not a character")
   
 }
 
 ```
-
-```{r}
-for(i in 1:length(my_list)){
-  
-  ifelse(class(my_list$i) == "character" | length(my_list$i) >= 1, print(paste(my_list[i], collapse = " ")), print("not a character"))
-
-
-  
-  }
-
-
-```
-
-
- ifelse(length(my_list[[i]]) < 1, paste(my_list[[i]], " "), my_list[i])
-
-
-
 
 
 
