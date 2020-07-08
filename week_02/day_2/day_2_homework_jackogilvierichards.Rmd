@@ -1,0 +1,91 @@
+---
+title: "week_01_day_2_homework_jackogilvierichards"
+output: html_notebook
+---
+
+# 1.1
+This is for the third bullet point of the homework - first two parts have been completed (went into sql in terminal, made database, came out for safety and seeded sql file). 
+
+Library Load: 
+
+```{r}
+library(RPostgreSQL)
+```
+
+Loading in credentials (prior to addition for new remote connection):
+
+```{r}
+home_location <- Sys.getenv("HOME")
+credentials_location <- paste0(home_location, "/credentials.R")
+source(credentials_location)
+```
+
+Connecting to database...
+
+```{r}
+wrestling_db_connection <- dbConnect(drv = PostgreSQL(max.con = 2), user = postgresql_username, password = postgresql_password, dbname = 'wrestling', host = 'localhost')
+```
+
+Queries for Local connection:
+
+```{r}
+wrestlers <- dbGetQuery(conn = wrestling_db_connection, statement = "SELECT * FROM wrestling")
+
+```
+
+# 1.2
+
+Since above didn't work I'm now going to be writing what I believe is the correct code (I'll add the remote details to credentials just not reallyyyyy sure why the above didn't work I'll try get it before my final commit but ye). 
+
+After I've added new details to my credentials doc:
+
+```{r}
+home_location <- Sys.getenv("HOME")
+credentials_location <- paste0(home_location, "/credentials.R")
+source(credentials_location)
+```
+
+```{r}
+wrestling_db_connect <- dbConnect(drv = PostgreSQL(max.con = 2), user = remote_wrestling_postgresql_username, password = remote_wrestling_postgresql_password, dbname = 'mvhbdgdk', host = 'manny.db.elephantsql.com')
+```
+
+
+```{r}
+remote_wresters <- dbGetQuery(conn = wrestling_db_connect, statement = "SELECT * FROM wrestling")
+```
+
+
+
+```{r}
+dbDisconnect(conn = wrestling_db_connection)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
