@@ -1,0 +1,213 @@
+---
+title: "Lab Homework - Jack Ogilvie-Richards"
+output: html_notebook
+---
+
+
+# MVP SETUP
+
+```{r}
+library(RPostgreSQL)
+home_location <- Sys.getenv("HOME")
+credentials_location <- paste0(home_location,"/credentials.R")
+source(credentials_location)
+db_connect <- dbConnect(drv = PostgreSQL(), user = postgresql_username, password = postgresql_password, dbname = "omni_employees", host = "localhost")
+rm(postgresql_username, postgresql_password)
+```
+
+
+# MVP
+
+#1
+```{sql connection=db_connect}
+
+SELECT *
+FROM employees
+WHERE department = 'Human Resources'
+
+
+
+
+
+```
+#2
+
+```{sql connection=db_connect}
+
+SELECT
+  first_name,
+  last_name, 
+  country
+FROM employees 
+WHERE department = 'Legal'
+
+```
+#3
+
+```{sql connection=db_connect}
+
+SELECT
+  COUNT(id) as emp_num_Portugal
+FROM employees
+WHERE country = 'Portugal'
+
+```
+
+#4
+
+```{sql connection=db_connect}
+
+SELECT 
+  country,
+  COUNT(id) AS emp_num
+FROM employees
+WHERE country = 'Portugal' OR country = 'Spain'
+GROUP BY country
+
+```
+
+# 5
+
+```{sql connection=db_connect}
+
+SELECT
+  COUNT(id) AS no_local_acc_num
+FROM pay_details
+WHERE local_account_no IS NOT NULL
+
+```
+
+
+# 6
+
+```{sql connection=db_connect}
+
+SELECT
+  COUNT(id) AS no_local_no_iban
+FROM pay_details
+WHERE (local_account_no IS NULL) AND (iban IS NULL)
+
+```
+
+
+# 7
+
+```{sql connection=db_connect}
+
+SELECT
+ first_name,
+ last_name
+FROM employees
+ORDER BY last_name ASC NULLS LAST
+
+```
+
+# 8 
+
+```{sql connection=db_connect}
+
+SELECT
+  first_name,
+  last_name,
+  country
+FROM employees
+ORDER BY 
+  country ASC,
+  last_name ASC NULLS LAST
+
+```
+
+# 9
+
+```{sql connection=db_connect}
+
+SELECT *
+FROM employees 
+ORDER BY salary DESC NULLS LAST
+LIMIT 10
+
+
+```
+
+# 10
+
+```{sql connection=db_connect}
+
+SELECT
+  first_name,
+  last_name,
+  salary
+FROM employees 
+WHERE country = 'Hungary'
+ORDER BY salary ASC NULLS LAST
+LIMIT 1
+
+
+```
+
+# 11 - How many employees have a first name beginning with ‘F’?
+
+
+aaaaaaaaaa I ran out of time rip - I am comfortable I would have finished this and will do so asap sorry Aileen!!
+
+```{sql connection=db_connect}
+
+
+
+```
+
+```{sql connection=db_connect}
+
+```
+
+```{sql connection=db_connect}
+
+```
+
+```{sql connection=db_connect}
+
+```
+
+```{sql connection=db_connect}
+
+```
+
+```{sql connection=db_connect}
+
+```
+
+```{sql connection=db_connect}
+
+```
+
+```{sql connection=db_connect}
+
+```
+
+```{sql connection=db_connect}
+
+```
+
+```{sql connection=db_connect}
+
+```
+
+```{sql connection=db_connect}
+
+```
+
+```{sql connection=db_connect}
+
+```
+
+```{sql connection=db_connect}
+
+```
+
+```{sql connection=db_connect}
+
+```
+
+```{sql connection=db_connect}
+
+```
