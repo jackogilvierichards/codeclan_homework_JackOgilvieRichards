@@ -1,0 +1,231 @@
+---
+title: "SQL Weekend Homework - Jack Ogilvie-Richards"
+output: html_notebook
+---
+
+# Connecting acme_employees to R
+
+```{r}
+library(RPostgreSQL)
+home_location <- Sys.getenv("HOME")
+credentials_location <- paste0(home_location,"/credentials.R")
+source(credentials_location)
+
+db_connect <- dbConnect(drv = PostgreSQL(), user = postgresql_username, password = postgresql_password, dbname = "acme_employees", host = "localhost")
+rm(postgresql_username, postgresql_password)
+
+```
+
+Using these database functions in R we can see some of the available tables and data present. 
+
+```{r}
+dbListTables(db_connect)
+```
+
+```{r}
+dbListFields(db_connect, name = "feedbacks")
+```
+
+# Queries
+
+1. To create a new data.frame containing the details of all employees held in the database.
+
+```{sql connection=db_connect}
+
+SELECT *
+FROM employees
+
+```
+
+```{r}
+r_employees <- dbGetQuery(conn = db_connect, 'SELECT * FROM employees')
+```
+
+
+
+2. Let's retrieve the records for all employees again, but this time add a field full_name containing the first_name and last_name of each employee separated by a space.
+
+
+```{sql connection=db_connect}
+
+SELECT 
+  *,
+  CONCAT(first_name, ' ', last_name) AS full_name
+FROM employees 
+
+```
+
+3. Now, retrieve the details of all employees again, but this time listing their team name (as team_name), rather than their team_id. 
+
+I was trying to work out a way to not select all the columns but given how long this was taking me there's the solution - apparently dropping a column is really really really hard. 
+
+
+```{sql connection=db_connect}
+
+SELECT 
+  employees.id,
+  employees.first_name,
+  employees.last_name,
+  employees.email,
+  teams.name AS team_name
+FROM employees, teams
+WHERE team_id = teams.id
+
+```
+
+
+```{sql connection=db_connect}
+-- some testing for the previous question, figured it's good to leave this stuff in if you happen to read through
+
+SELECT 
+  names
+FROM teams
+INNER JOIN (
+ALTER employees 
+DROP COLUMN team_id
+) ON teams.id = team_id
+
+
+
+
+```
+
+
+4. Now, we do a breakdown of the number of employees per team (we want two columns: team_name and num_employees). Order the table in decreasing number of employees. Include all teams, even if they have no employees.
+
+```{sql connection=db_connect}
+-- code from a failed attempt at the problem
+
+SELECT 
+  teams.name,
+  COUNT(employees.id) AS num_employees
+FROM teams, employees
+WHERE employees.team_id = teams.id OR team.name = 'Uncommitted'
+GROUP BY teams.id
+ORDER BY num_employees DESC NULLS LAST
+
+```
+
+
+```{sql connection=db_connect}
+
+SELECT 
+  teams.name, 
+  COUNT(employees.id) AS num_employees
+FROM teams
+LEFT OUTER JOIN employees
+ON teams.id = employees.team_id
+WHERE employees.team_id = teams.id
+GROUP BY teams.name
+ORDER BY num_employees DESC NULLS LAST,
+         teams.name
+
+
+
+
+```
+
+
+AcmeCorp management want to send an email survey to each of their employees. However, they are worried that some of the employees may not receive the email either because their email addresses may be invalid (in that they don’t contain an ‘@’ symbol), or they may not have a stored email address at all. Can you find all these employees?
+
+
+```{sql connection=db_connect}
+
+SELECT *
+FROM employees
+WHERE employees.email NOT ILIKE '%@%' OR employees.email IS NULL
+
+
+
+
+```
+
+
+# Extensions
+
+
+#2.1 Harder SQL queries
+
+
+Which of the employees provided the most recent feedback? What was the date of this feedback?
+
+
+```{sql connection=db_connect}
+
+SELECT *, 
+feedbacks.date
+FROM employees
+LEFT JOIN feedbacks ON feedbacks.employee_id = employees.id
+ORDER BY feedbacks.date DESC NULLS LAST LIMIT 1
+
+
+```
+
+
+You are chatting with one of the AcmeCorp employees, and she mentions that one of the teams in the corporation has some employees whose first_name contains only their first initial, e.g. “D” instead of “Dionne”, “C” instead of “Charles” (they had a really formal administrator a few years back). Can you find the name of the team that she is most likely referring to (i.e. which team has the highest number of employees with single initial first_names)`?
+
+
+```{sql connection=db_connect}
+-- again some code that doesn't work that I've left in for illustration
+SELECT 
+teams.name,
+COUNT(employees.id) AS num_employees
+FROM teams, employees
+WHERE first_name = '_'
+GROUP BY teams.name
+ORDER BY num_employees DESC NULLS LAST LIMIT 1
+
+
+```
+
+
+```{sql connection=db_connect}
+
+SELECT
+COUNT(e.id) AS num_employees,
+teams.name
+FROM employees AS e
+LEFT JOIN teams ON e.team_id = teams.id
+WHERE first_name ILIKE '_'
+GROUP BY teams.name
+ORDER BY num_employees DESC NULLS LAST LIMIT 1
+
+
+```
+
+
+```{sql connection=db_connect}
+
+
+
+```
+
+
+
+#2.2 Sentiment Analysis
+
+```{sql connection=db_connect}
+```
+```{sql connection=db_connect}
+```
+```{sql connection=db_connect}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
