@@ -1,0 +1,112 @@
+---
+title: "Week 3 - Day 2 Homework - Jack Ogilvie-Richards"
+output: html_notebook
+---
+
+# Question 1
+
+Calling in library 'tidyverse':
+
+```{r}
+library(tidyverse)
+```
+
+
+Reading in CSV: 
+
+```{r}
+facial_recog <- read_csv("data/face_descriptions.csv")
+```
+
+
+Basic understanding of raw data - column types, initial looks, names:
+
+```{r}
+
+# View(facial_recog)  #if you want this to run simply remove ...
+                      #... the hash at the start of the line above
+
+dim(facial_recog)
+
+head(facial_recog)
+
+names(facial_recog)
+
+```
+
+# Question 2 
+
+The variable names do not look tidy at all - while user_id, sex and age are relatively helpful, the t1, ... are extremely unclear. Age ideally would be integers as decimal values of a year seem inaccurate, unless I knew it was based off a date-to-numeric system - even then though it's pretty unclear and would be better to ground the ages. 
+
+There are so many unclear columns hence our data is wide, ideally we want a lot less than 53 columns of descriptions as it's pretty overwhelming. 
+
+Granted, this homework looks really challenging so let's just see how I go!
+
+
+# Question 3
+
+```{r}
+
+long_facial_recog <- facial_recog %>%
+  pivot_longer(-c(user_id, sex, age), 
+               names_to = "test_faces", 
+               values_to = "desription")
+
+head(long_facial_recog)
+
+
+
+
+```
+
+Yay! That makes me slightly less terrified.
+
+# Question 4
+
+I'll be finishing the homework later, apologies.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
