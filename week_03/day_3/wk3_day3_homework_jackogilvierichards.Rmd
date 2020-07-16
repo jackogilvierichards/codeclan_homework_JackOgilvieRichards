@@ -7,11 +7,11 @@ output: html_notebook
 
 Here I will load in the tidyverse library to provide tools for our data, as well as the CodeClan tweet data provided. 
 
-```{r}
+```{r Library}
 library(tidyverse)
 ```
 
-```{r}
+```{r Reading .csv}
 cctweets <- read_csv("data/code_clan_tweets.csv")
 ```
 
@@ -19,9 +19,12 @@ I will load the info csv file later.
 
 # MVP - Questions
 
+
+Question 1
+
 Find the number of rows, columns, and list all the variable names.
 
-```{r}
+```{r Question 1}
 
 dim(cctweets)
 
@@ -37,29 +40,86 @@ Question 2
 
 Summarise the number of likes (favorite_count) CodeClan tweets have. Create a boxplot to check for outliers.
 
+```{r Question 2}
+
+# as I was unsure if there was a grouping to which the tweet data would fall into, I've included a line of code making a new variable
+# it is quite possible that as I'm grouping by id that it makes absolutely no difference but there you go. I follow with a summary, which I then apply to a boxplot. See further conclusions below:
+
+cctweets_grouped <- group_by(cctweets, tweet_id, favorite_count)
+
+cctweets %>%
+  summarise(tweet_id, favorite_count)
+
+ggplot(cctweets_grouped) +
+  aes(x = tweet_id, y = favorite_count, group = "tweet_id") +
+  geom_boxplot() +
+  coord_flip()
+
+```
+
+Sadly, CodeClan's twitter is stuck with a grounding mean/median of 0 likes - hence while there are a large number of outliers it is fair to argue that only do the highest two values almost double the scale of the plot, a good indication of an outlier. 
 
 
+Question 3
 
-```{r}
+Find the total number of favourited tweets (stored in favorite_count) that CodeClan tweets have got. Don’t add a tweet’s favorite_count to the total when the tweet was quoted (see the is_quote variable).
 
+```{r Question 3}
+
+# I'll be using a simple pipe to find this value, simply using the count function, specifying the two conditions by which I wish to organise the CodeClan tweets.
+
+cctweets %>%
+  count(screen_name, favorite_count > 0, is_quote == FALSE)
 
 
 ```
 
+For a tweet to be added it must have at least one like, and it doesn't count if it is a quote (is_quote = TRUE). Therefore only the bottom row of my output contains all suitable tweets, of which 89 received some likes. 
+
+
+Question 4
+
+Summarise the mean number of retweets (retweet_count), split by the type of platform that was used to tweet (source). Again, omit quoted tweets from the mean.
+
+```{r Question 4}
+
+cctweets %>%
+  group_by(source) %>%
+  filter(retweet_count > 0, is_quote == FALSE) %>%
+  summarise(round(mean(retweet_count), 3))
+
+```
+
+Using the filter function is the obvious thing to do now, hopefully someone appreciates the rounding. 
+
+
+Question 5
+
+Count the total number of likes (i.e. total of favorite_count), split by media type, and arrange them from most likes to least. Assume that any tweets without a listed media type are of type “text”.
+
 
 ```{r}
+
+cctweets %>%
+  mutate_if(media_type, length(media_type) == 0, "text") %>%
+  summarise(media_type, sum(favorite_count>0))
+
 ```
 
 
-```{r}
-```
+Question 6
 
-
-```{r}
-```
-
+Find the mean number of characters that a CodeClan tweet contains.
 
 ```{r}
+
+cctweets %>%
+  mutate(media_type = replace_na(media_type, "text")) %>%
+  summarise(media_type, n(favorite_count)) %>%
+  
+
+
+
 ```
 
 
