@@ -1,0 +1,180 @@
+---
+title: "Introduction to `ggplot2` homework"
+author: "Jack Ogilvie-Richards"
+output: html_notebook
+---
+
+#### Libraries
+
+```{r Libraries}
+
+library(tidyverse)
+library(CodeClanData)
+
+```
+
+
+# MVP
+
+This homework examines a dataset of students and their backpacks. 
+
+#### Question 1
+
+```{r Viewing Data}
+
+dim(backpack)
+
+head(backpack)
+
+
+```
+
+
+#### Question 2
+
+```{r Distribution of backpack weight}
+
+ggplot(backpack) +
+  geom_bar(aes(x = backpack_weight), col = "white") +
+  xlab("backpack weight (kg)") +
+  scale_fill_brewer(palette = 7)
+
+```
+
+This graph represents how many students own a backpack of a given weight. The bar chart shows that the median weight of backpacks is 10kg and that the majority of students do not carry a bag heavier than 20kg. One could argue that there is a skewed normal distribution for student backpack weight. 
+
+
+#### Question 3
+
+
+```{r}
+
+ggplot(backpack) +
+  geom_bar(aes(x = backpack_weight, colour = sex), fill = "yellow") +
+  xlab("backpack weight (kg)") +
+  facet_wrap(~sex, ncol = 2)
+
+```
+
+This graph compares the differences in backpack weight between female and male students. There are small differences between female and male weights; the variance of the male weight appears to be greater than the backpacks used by female students. There is a clear majority between 0 and 15kg in the female users whereas there is a consistent user-base of males using backpacks ranging from 5 to 20kg. 
+
+Sidenote: There are likely better ways of highlighting these differences. 
+
+
+#### Question 4
+
+
+```{r}
+
+ggplot(backpack) +
+  aes(x = backpack_weight, y = body_weight) +
+  geom_smooth(fill = "light blue") +
+  xlab("backpack weight (kg)") +
+  ylab("body weight (kg)")
+
+```
+
+This graph attempts to demonstrate an overall relationship between a student's body weight and the weight of their respective backpacks. What we can observe is that there is a slow increase in body weight the heavier the back, with stress on low and high backpack weights having a more direct relationship on user body weight. Generally students with s body weight between ~145kg - 170kg will carry a backpack between 5kg - 20kg, however as we saw previously and shall check in the following graph, there is a disparity between gender in the data that may be skewing these results. 
+
+
+#### Question 5
+
+
+```{r}
+
+ggplot(backpack) +
+  aes(x = backpack_weight, y = body_weight) +
+  geom_smooth(fill = "light blue") +
+  xlab("backpack weight (kg)") +
+  ylab("body weight (kg)") +
+  facet_wrap(~sex, ncol = 2)
+
+
+```
+
+These graphs highlight some of the differences in the relationship between a student body weight and how heavy their backpack is, between the male and female entries of our data. When separated, we see that the increase in body weight proportional to the backpack weight dips around certain categories of backpack weight (I would argue that 10kg is a moderately heavy bag, 20kg is a heavy bag) - this relationship is more exaggerated in the female population, which is in my opinion a consequence of a small pool of data. 
+
+
+
+#### Question 6
+
+
+```{r}
+
+ggplot(backpack) +
+  geom_bar(aes(x = back_problems), col = "dark red", fill = "light green") +
+  scale_x_continuous(breaks = c(0, 1),
+                     labels = c("0" = "No",
+                                "1" = "Yes")
+                     ) +
+  scale_y_continuous(labels = scales::percent) +
+  labs(
+    x = "Do you experience back pain", 
+    y = "Percentage of Students (%)", 
+    title = "Porportion of students experiencing back pain")
+
+  
+
+```
+
+
+
+
+
+#### Question 7
+
+
+```{r}
+
+ggplot(backpack) +
+  geom_bar(aes(x = back_problems), col = "dark red", fill = "light green") +
+  scale_x_continuous(breaks = c(0, 1),
+                     labels = c("0" = "No",
+                                "1" = "Yes")
+                     ) +
+  labs(
+    x = "Do you experience back pain", 
+    y = "Number of Students", #Percentage of Students (%)
+    title = "Porportion of students experiencing back pain") +
+  facet_wrap(~sex)
+
+
+
+
+```
+
+
+
+
+
+#### Question 8
+
+```{r}
+
+ggplot(backpack) +
+  aes(x = backpack_weight, y = body_weight) +
+  geom_smooth(fill = "light blue") +
+  xlab("backpack weight (kg)") +
+  ylab("body weight (kg)") +
+  facet_grid(sex~back_problems)
+
+
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
