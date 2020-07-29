@@ -1,0 +1,210 @@
+---
+title: "Selecting the right chart"
+output: html_notebook
+---
+
+### Libraries
+
+
+```{r}
+
+library(tidyverse)
+library(CodeClanData)
+library(viridis)
+library(forcats)
+
+```
+
+### Four Categories
+
+#### 3.1 Comparison
+
+
+
+
+```{r}
+
+
+
+ggplot(late_deliveries) +
+  aes(x = date, y = late_deliveries) +
+  geom_line() +
+  geom_smooth(alpha = 0.2) +
+  labs(
+    title = "Late Deliveries; 2015-2019",
+    subtitle = "A comparison", 
+    x = "Year",
+    y = "No. of late deliveries"
+  ) +
+  theme_grey() 
+  
+
+```
+
+Here we have a line chart for late delivery counts from 2015 to the end of 2018. The chart shows a gradual decrease (highlighted by the smooth curve) in late deliveries over the past 4 years, with natural oscillations at times of national holiday/celebration (Easter, Christmas, etc). An impressive change would be the improvement from 2015 to 2017 at Christmas time, where late deliveries had been reduced by a third of the total of Winter 2015. 
+
+
+
+```{r}
+
+recovery_times %>%
+  #rename(treatment, 
+  #       "control" = "Control Treatment",
+   #      "treatment_a" = "Treatment Method A",
+    #     "treatment_b" = "Treatment Method B") %>%
+  ggplot() +
+    aes(x = recovery, fill = treatment_group) +
+    geom_bar(position = "dodge") +
+    facet_wrap(~treatment_group, nrow = 2) +
+    labs(
+      title = "Patient Recovery Periods", 
+      subtitle = "by Method of Treatment",
+      x = "\nRecovery Time (days)",
+      y = "No. of Patients"
+    )
+  
+
+
+```
+
+
+```{r}
+
+fitness_levels %>%
+  ggplot() +
+  aes(x = group, y = fitness_score, fill = fitness_score > 0) +
+  geom_col(position = "dodge") +
+  coord_flip()
+
+
+```
+
+
+#### Connection
+
+
+```{r}
+
+blood_pressure %>%
+  ggplot() +
+  aes(x = daily_saturated_fat_intake_mg, y = systolic_blood_pressure_mm_hg) +
+  geom_point()
+
+
+```
+
+
+```{r}
+
+car_use %>%
+  ggplot() +
+  aes(x = car_use_percent, y = air_so2_concentration_ppm, size = population, colour = city) +
+  geom_point()
+
+
+```
+
+
+#### Distribution
+
+
+```{r}
+
+d20_outcomes %>% 
+  ggplot() +
+  aes(x = outcome, fill = "black") +
+  geom_histogram(position = "dodge") +
+  labs(
+    title = "D20 Class Outcomes",
+    subtitle = "By university grading",
+    x = "Grade",
+    y = "No. of Students"
+  ) +
+  scale_x_continuous(breaks = c(4, 7, 11, 14, 17, 20),
+                 labels = c(
+                   "4" = "Fail",
+                   "7" = "Pass",
+                   "11" = "Good Pass",
+                   "14" = "Merit",
+                   "17" = "Distinction",
+                   "20" = "Full Marks"
+                 )) 
+
+
+```
+
+
+```{r}
+
+d20x5_outcomes %>%
+  ggplot() +
+  aes(x = outcome) +
+  geom_histogram()
+
+```
+
+#### Composition
+
+
+```{r}
+
+pension_surplus
+
+
+```
+
+
+```{r}
+
+pension_liabilities
+
+
+```
+
+Ran a bit out of time here sorry, check homework form. 
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+

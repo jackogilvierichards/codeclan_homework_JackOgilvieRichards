@@ -102,7 +102,7 @@ These graphs highlight some of the differences in the relationship between a stu
 ```{r}
 
 ggplot(backpack) +
-  geom_bar(aes(x = back_problems), col = "dark red", fill = "light green") +
+  geom_bar(aes(x = back_problems, y = (..count..)/sum(..count..)), col = "dark red", fill = "light green") +
   scale_x_continuous(breaks = c(0, 1),
                      labels = c("0" = "No",
                                 "1" = "Yes")
@@ -154,6 +154,7 @@ ggplot(backpack) +
 ggplot(backpack) +
   aes(x = backpack_weight, y = body_weight) +
   geom_smooth(fill = "light blue") +
+  geom_point() +
   xlab("backpack weight (kg)") +
   ylab("body weight (kg)") +
   facet_grid(sex~back_problems)
