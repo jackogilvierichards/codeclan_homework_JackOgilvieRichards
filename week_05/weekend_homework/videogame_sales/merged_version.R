@@ -12,7 +12,7 @@ library(CodeClanData)
 #View(game_sales)
 
 
-# I had some ideas which hopefully I will eventually impliment into the app on 
+# I had some ideas which hopefully I will eventually implement into the app on 
 # different tabs really going into some good detail on the topic - for the commit
 # this may be read for I am going to prepare a button-updated graph depicting the 
 # comparison of user and critic scores
