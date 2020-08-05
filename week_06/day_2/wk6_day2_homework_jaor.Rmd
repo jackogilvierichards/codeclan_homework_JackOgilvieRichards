@@ -1,0 +1,98 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+### Libraries
+
+```{r}
+library(skimr)
+library(stringr)
+library(janitor)
+library(MASS)
+library(tidyverse)
+```
+
+
+# MVP
+
+## Question 1
+
+```{r}
+
+phone_data <- read_csv("data/20190928-items.csv")
+
+```
+
+
+```{r}
+
+phone_data <- clean_names(phone_data)
+
+
+```
+
+
+```{r}
+unique(phone_data$brand)
+
+phone_data %>%
+  group_by(brand) %>%
+  summarise(count = n()) %>%
+  arrange(desc(count))
+
+```
+
+
+We can see that Samsung has nearly 400 phones in the data, consequently we shall proceed by analysing their brand. 
+
+
+```{r}
+
+phone_data %>%
+  filter(brand == "Samsung") %>%
+  skim()
+
+```
+
+
+```{r}
+
+
+
+
+
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+
+
