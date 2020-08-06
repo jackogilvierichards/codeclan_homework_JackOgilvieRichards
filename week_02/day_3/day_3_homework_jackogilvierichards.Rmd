@@ -101,6 +101,24 @@ FROM employees
 ORDER BY last_name ASC NULLS LAST
 
 ```
+there are dodgy errors at the end of the data!!
+
+```{sql connection=db_connect}
+
+
+SELECT
+ first_name,
+ last_name
+FROM employees
+ORDER BY LOWER(last_name) ASC NULLS LAST
+
+
+```
+
+
+
+Same in this one too!!
+
 
 # 8 
 
@@ -113,7 +131,7 @@ SELECT
 FROM employees
 ORDER BY 
   country ASC,
-  last_name ASC NULLS LAST
+  LOWER(last_name) ASC NULLS LAST
 
 ```
 
@@ -152,7 +170,9 @@ aaaaaaaaaa I ran out of time rip - I am comfortable I would have finished this a
 
 ```{sql connection=db_connect}
 
-
+SELECT count(id) as something
+FROM employees 
+WHERE first_name ILIKE 'F%'
 
 ```
 

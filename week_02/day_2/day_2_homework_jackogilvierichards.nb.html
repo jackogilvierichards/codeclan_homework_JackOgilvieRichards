@@ -1773,28 +1773,30 @@ source(credentials_location)</code></pre>
 <p>Connecting to database…</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxud3Jlc3RsaW5nX2RiX2Nvbm5lY3Rpb24gPC0gZGJDb25uZWN0KGRydiA9IFBvc3RncmVTUUwobWF4LmNvbiA9IDIpLCB1c2VyID0gcG9zdGdyZXNxbF91c2VybmFtZSwgcGFzc3dvcmQgPSBwb3N0Z3Jlc3FsX3Bhc3N3b3JkLCBkYm5hbWUgPSAnd3Jlc3RsaW5nJywgaG9zdCA9ICdsb2NhbGhvc3QnKVxuYGBgIn0= -->
-<pre class="r"><code>wrestling_db_connection &lt;- dbConnect(drv = PostgreSQL(max.con = 2), user = postgresql_username, password = postgresql_password, dbname = &#39;wrestling&#39;, host = &#39;localhost&#39;)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxud3Jlc3RsaW5nX2RiX2Nvbm5lY3Rpb24gPC0gZGJDb25uZWN0KGRydiA9IFBvc3RncmVTUUwobWF4LmNvbiA9IDIpLCB1c2VyID0gcG9zdGdyZXNxbF91c2VybmFtZSwgcGFzc3dvcmQgPSBwb3N0Z3Jlc3FsX3Bhc3N3b3JkLCBkYm5hbWUgPSAnd3Jlc3RsaW5nJywgaG9zdCA9ICdsb2NhbGhvc3QnKVxuXG5ybShwb3N0Z3Jlc3FsX3Bhc3N3b3JkLCBwb3N0Z3Jlc3FsX3VzZXJuYW1lKVxuXG5cbmBgYCJ9 -->
+<pre class="r"><code>wrestling_db_connection &lt;- dbConnect(drv = PostgreSQL(max.con = 2), user = postgresql_username, password = postgresql_password, dbname = &#39;wrestling&#39;, host = &#39;localhost&#39;)
+
+rm(postgresql_password, postgresql_username)
+</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>Queries for Local connection:</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxud3Jlc3RsZXJzIDwtIGRiR2V0UXVlcnkoY29ubiA9IHdyZXN0bGluZ19kYl9jb25uZWN0aW9uLCBzdGF0ZW1lbnQgPSBcIlNFTEVDVCAqIEZST00gd3Jlc3RsaW5nXCIpXG5cbmBgYCJ9 -->
-<pre class="r"><code>wrestlers &lt;- dbGetQuery(conn = wrestling_db_connection, statement = &quot;SELECT * FROM wrestling&quot;)
-</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxud3Jlc3RsZXJzIDwtIGRiR2V0UXVlcnkoY29ubiA9IHdyZXN0bGluZ19kYl9jb25uZWN0aW9uLCBzdGF0ZW1lbnQgPSBcIlNFTEVDVCAqIEZST00gd3Jlc3RsZXJzXCIpXG5cblZpZXcod3Jlc3RsZXJzKVxuXG5kYkRpc2Nvbm5lY3QoY29ubiA9IHdyZXN0bGluZ19kYl9jb25uZWN0aW9uKVxuYGBgIn0= -->
+<pre class="r"><code>wrestlers &lt;- dbGetQuery(conn = wrestling_db_connection, statement = &quot;SELECT * FROM wrestlers&quot;)
+
+View(wrestlers)
+
+dbDisconnect(conn = wrestling_db_connection)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiRXJyb3IgaW4gcG9zdGdyZXNxbEV4ZWNTdGF0ZW1lbnQoY29ubiwgc3RhdGVtZW50LCAuLi4pIDogXG4gIFJTLURCSSBkcml2ZXI6IChjb3VsZCBub3QgUmV0cmlldmUgdGhlIHJlc3VsdCA6IEVSUk9SOiAgcmVsYXRpb24gXCJ3cmVzdGxpbmdcIiBkb2VzIG5vdCBleGlzdFxuTElORSAxOiBTRUxFQ1QgKiBGUk9NIHdyZXN0bGluZ1xuICAgICAgICAgICAgICAgICAgICAgIF5cbilcbkNvdWxkIG5vdCBjcmVhdGUgZXhlY3V0ZTogU0VMRUNUICogRlJPTSB3cmVzdGxpbmdcbiJ9 -->
-<pre><code>Error in postgresqlExecStatement(conn, statement, ...) : 
-  RS-DBI driver: (could not Retrieve the result : ERROR:  relation &quot;wrestling&quot; does not exist
-LINE 1: SELECT * FROM wrestling
-                      ^
-)
-Could not create execute: SELECT * FROM wrestling</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFRSVUVcbiJ9 -->
+<pre><code>[1] TRUE</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+<p>dbCol these two (check what the proper function name is, it’s in the notes) to find out what the name of what you’re selecting is. dbRow</p>
 </div>
 <div id="section-1" class="section level1">
 <h1>1.2</h1>
@@ -1811,38 +1813,37 @@ source(credentials_location)</code></pre>
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmVtb3RlX3dyZXN0ZXJzIDwtIGRiR2V0UXVlcnkoY29ubiA9IHdyZXN0bGluZ19kYl9jb25uZWN0LCBzdGF0ZW1lbnQgPSBcIlNFTEVDVCB3cmVzdGxpbmcgRlJPTSAqXCIpXG5gYGAifQ== -->
-<pre class="r"><code>remote_wresters &lt;- dbGetQuery(conn = wrestling_db_connect, statement = &quot;SELECT wrestling FROM *&quot;)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiRXJyb3IgaW4gcG9zdGdyZXNxbEV4ZWNTdGF0ZW1lbnQoY29ubiwgc3RhdGVtZW50LCAuLi4pIDogXG4gIFJTLURCSSBkcml2ZXI6IChjb3VsZCBub3QgUmV0cmlldmUgdGhlIHJlc3VsdCA6IEVSUk9SOiAgc3ludGF4IGVycm9yIGF0IG9yIG5lYXIgXCIqXCJcbkxJTkUgMTogU0VMRUNUIHdyZXN0bGluZyBGUk9NICpcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF5cbilcbkNvdWxkIG5vdCBjcmVhdGUgZXhlY3V0ZTogU0VMRUNUIHdyZXN0bGluZyBGUk9NICpcbiJ9 -->
-<pre><code>Error in postgresqlExecStatement(conn, statement, ...) : 
-  RS-DBI driver: (could not Retrieve the result : ERROR:  syntax error at or near &quot;*&quot;
-LINE 1: SELECT wrestling FROM *
-                              ^
-)
-Could not create execute: SELECT wrestling FROM *</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGJEaXNjb25uZWN0KGNvbm4gPSB3cmVzdGxpbmdfZGJfY29ubmVjdGlvbilcblxuYGBgIn0= -->
-<pre class="r"><code>dbDisconnect(conn = wrestling_db_connection)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxud3Jlc3RsaW5nX2RiX2Nvbm5lY3QgPC0gZGJDb25uZWN0KGRydiA9IFBvc3RncmVTUUwobWF4LmNvbiA9IDIpLCB1c2VyID0gcmVtb3RlX3dyZXN0bGluZ19wb3N0Z3Jlc3FsX3VzZXJuYW1lLCBwYXNzd29yZCA9IHJlbW90ZV93cmVzdGxpbmdfcG9zdGdyZXNxbF9wYXNzd29yZCwgZGJuYW1lID0gJ212aGJkZ2RrJywgaG9zdCA9ICdtYW5ueS5kYi5lbGVwaGFudHNxbC5jb20nKVxuXG5gYGAifQ== -->
+<pre class="r"><code>wrestling_db_connect &lt;- dbConnect(drv = PostgreSQL(max.con = 2), user = remote_wrestling_postgresql_username, password = remote_wrestling_postgresql_password, dbname = &#39;mvhbdgdk&#39;, host = &#39;manny.db.elephantsql.com&#39;)
 </code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFRSVUVcbiJ9 -->
-<pre><code>[1] TRUE</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiRXJyb3IgaW4gcG9zdGdyZXNxbE5ld0Nvbm5lY3Rpb24oZHJ2LCAuLi4pIDogXG4gIFJTLURCSSBkcml2ZXI6IChjb3VsZCBub3QgY29ubmVjdCBtdmhiZGdka0BtYW5ueS5kYi5lbGVwaGFudHNxbC5jb206NTQzMiBvbiBkYm5hbWUgXCJtdmhiZGdka1wiOiBzZXJ2ZXIgY2xvc2VkIHRoZSBjb25uZWN0aW9uIHVuZXhwZWN0ZWRseVxuXHRUaGlzIHByb2JhYmx5IG1lYW5zIHRoZSBzZXJ2ZXIgdGVybWluYXRlZCBhYm5vcm1hbGx5XG5cdGJlZm9yZSBvciB3aGlsZSBwcm9jZXNzaW5nIHRoZSByZXF1ZXN0LlxuKVxuIn0= -->
+<pre><code>Error in postgresqlNewConnection(drv, ...) : 
+  RS-DBI driver: (could not connect mvhbdgdk@manny.db.elephantsql.com:5432 on dbname &quot;mvhbdgdk&quot;: server closed the connection unexpectedly
+    This probably means the server terminated abnormally
+    before or while processing the request.
+)</code></pre>
 <!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmVtb3RlX3dyZXN0ZXJzIDwtIGRiR2V0UXVlcnkoY29ubiA9IHdyZXN0bGluZ19kYl9jb25uZWN0LCBzdGF0ZW1lbnQgPSBcIlNFTEVDVCAqIEZST00gd3Jlc3RsZXJzXCIpXG5gYGAifQ== -->
+<pre class="r"><code>remote_wresters &lt;- dbGetQuery(conn = wrestling_db_connect, statement = &quot;SELECT * FROM wrestlers&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGJEaXNjb25uZWN0KGNvbm4gPSB3cmVzdGxpbmdfZGJfY29ubmVjdGlvbilcbmBgYCJ9 -->
+<pre class="r"><code>dbDisconnect(conn = wrestling_db_connection)</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAid2Vla18wMV9kYXlfMl9ob21ld29ya19qYWNrb2dpbHZpZXJpY2hhcmRzIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgojIDEuMQpUaGlzIGlzIGZvciB0aGUgdGhpcmQgYnVsbGV0IHBvaW50IG9mIHRoZSBob21ld29yayAtIGZpcnN0IHR3byBwYXJ0cyBoYXZlIGJlZW4gY29tcGxldGVkICh3ZW50IGludG8gc3FsIGluIHRlcm1pbmFsLCBtYWRlIGRhdGFiYXNlLCBjYW1lIG91dCBmb3Igc2FmZXR5IGFuZCBzZWVkZWQgc3FsIGZpbGUpLiAKCkxpYnJhcnkgTG9hZDogCgpgYGB7cn0KbGlicmFyeShSUG9zdGdyZVNRTCkKYGBgCgpMb2FkaW5nIGluIGNyZWRlbnRpYWxzIChwcmlvciB0byBhZGRpdGlvbiBmb3IgbmV3IHJlbW90ZSBjb25uZWN0aW9uKToKCmBgYHtyfQpob21lX2xvY2F0aW9uIDwtIFN5cy5nZXRlbnYoIkhPTUUiKQpjcmVkZW50aWFsc19sb2NhdGlvbiA8LSBwYXN0ZTAoaG9tZV9sb2NhdGlvbiwgIi9jcmVkZW50aWFscy5SIikKc291cmNlKGNyZWRlbnRpYWxzX2xvY2F0aW9uKQpgYGAKCkNvbm5lY3RpbmcgdG8gZGF0YWJhc2UuLi4KCmBgYHtyfQp3cmVzdGxpbmdfZGJfY29ubmVjdGlvbiA8LSBkYkNvbm5lY3QoZHJ2ID0gUG9zdGdyZVNRTChtYXguY29uID0gMiksIHVzZXIgPSBwb3N0Z3Jlc3FsX3VzZXJuYW1lLCBwYXNzd29yZCA9IHBvc3RncmVzcWxfcGFzc3dvcmQsIGRibmFtZSA9ICd3cmVzdGxpbmcnLCBob3N0ID0gJ2xvY2FsaG9zdCcpCmBgYAoKUXVlcmllcyBmb3IgTG9jYWwgY29ubmVjdGlvbjoKCmBgYHtyfQp3cmVzdGxlcnMgPC0gZGJHZXRRdWVyeShjb25uID0gd3Jlc3RsaW5nX2RiX2Nvbm5lY3Rpb24sIHN0YXRlbWVudCA9ICJTRUxFQ1QgKiBGUk9NIHdyZXN0bGluZyIpCgpgYGAKCiMgMS4yCgpTaW5jZSBhYm92ZSBkaWRuJ3Qgd29yayBJJ20gbm93IGdvaW5nIHRvIGJlIHdyaXRpbmcgd2hhdCBJIGJlbGlldmUgaXMgdGhlIGNvcnJlY3QgY29kZSAoSSdsbCBhZGQgdGhlIHJlbW90ZSBkZXRhaWxzIHRvIGNyZWRlbnRpYWxzIGp1c3Qgbm90IHJlYWxseXl5eXkgc3VyZSB3aHkgdGhlIGFib3ZlIGRpZG4ndCB3b3JrIEknbGwgdHJ5IGdldCBpdCBiZWZvcmUgbXkgZmluYWwgY29tbWl0IGJ1dCB5ZSkuIAoKQWZ0ZXIgSSd2ZSBhZGRlZCBuZXcgZGV0YWlscyB0byBteSBjcmVkZW50aWFscyBkb2M6CgpgYGB7cn0KaG9tZV9sb2NhdGlvbiA8LSBTeXMuZ2V0ZW52KCJIT01FIikKY3JlZGVudGlhbHNfbG9jYXRpb24gPC0gcGFzdGUwKGhvbWVfbG9jYXRpb24sICIvY3JlZGVudGlhbHMuUiIpCnNvdXJjZShjcmVkZW50aWFsc19sb2NhdGlvbikKYGBgCgpgYGB7cn0Kd3Jlc3RsaW5nX2RiX2Nvbm5lY3QgPC0gZGJDb25uZWN0KGRydiA9IFBvc3RncmVTUUwobWF4LmNvbiA9IDIpLCB1c2VyID0gcmVtb3RlX3dyZXN0bGluZ19wb3N0Z3Jlc3FsX3VzZXJuYW1lLCBwYXNzd29yZCA9IHJlbW90ZV93cmVzdGxpbmdfcG9zdGdyZXNxbF9wYXNzd29yZCwgZGJuYW1lID0gJ212aGJkZ2RrJywgaG9zdCA9ICdtYW5ueS5kYi5lbGVwaGFudHNxbC5jb20nKQpgYGAKCgpgYGB7cn0KcmVtb3RlX3dyZXN0ZXJzIDwtIGRiR2V0UXVlcnkoY29ubiA9IHdyZXN0bGluZ19kYl9jb25uZWN0LCBzdGF0ZW1lbnQgPSAiU0VMRUNUICogRlJPTSB3cmVzdGxpbmciKQpgYGAKCgoKYGBge3J9CmRiRGlzY29ubmVjdChjb25uID0gd3Jlc3RsaW5nX2RiX2Nvbm5lY3Rpb24pCmBgYAoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgo=</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAid2Vla18wMV9kYXlfMl9ob21ld29ya19qYWNrb2dpbHZpZXJpY2hhcmRzIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgojIDEuMQpUaGlzIGlzIGZvciB0aGUgdGhpcmQgYnVsbGV0IHBvaW50IG9mIHRoZSBob21ld29yayAtIGZpcnN0IHR3byBwYXJ0cyBoYXZlIGJlZW4gY29tcGxldGVkICh3ZW50IGludG8gc3FsIGluIHRlcm1pbmFsLCBtYWRlIGRhdGFiYXNlLCBjYW1lIG91dCBmb3Igc2FmZXR5IGFuZCBzZWVkZWQgc3FsIGZpbGUpLiAKCkxpYnJhcnkgTG9hZDogCgpgYGB7cn0KbGlicmFyeShSUG9zdGdyZVNRTCkKYGBgCgpMb2FkaW5nIGluIGNyZWRlbnRpYWxzIChwcmlvciB0byBhZGRpdGlvbiBmb3IgbmV3IHJlbW90ZSBjb25uZWN0aW9uKToKCmBgYHtyfQpob21lX2xvY2F0aW9uIDwtIFN5cy5nZXRlbnYoIkhPTUUiKQpjcmVkZW50aWFsc19sb2NhdGlvbiA8LSBwYXN0ZTAoaG9tZV9sb2NhdGlvbiwgIi9jcmVkZW50aWFscy5SIikKc291cmNlKGNyZWRlbnRpYWxzX2xvY2F0aW9uKQpgYGAKCkNvbm5lY3RpbmcgdG8gZGF0YWJhc2UuLi4KCmBgYHtyfQp3cmVzdGxpbmdfZGJfY29ubmVjdGlvbiA8LSBkYkNvbm5lY3QoZHJ2ID0gUG9zdGdyZVNRTChtYXguY29uID0gMiksIHVzZXIgPSBwb3N0Z3Jlc3FsX3VzZXJuYW1lLCBwYXNzd29yZCA9IHBvc3RncmVzcWxfcGFzc3dvcmQsIGRibmFtZSA9ICd3cmVzdGxpbmcnLCBob3N0ID0gJ2xvY2FsaG9zdCcpCgpybShwb3N0Z3Jlc3FsX3Bhc3N3b3JkLCBwb3N0Z3Jlc3FsX3VzZXJuYW1lKQoKCmBgYAoKUXVlcmllcyBmb3IgTG9jYWwgY29ubmVjdGlvbjoKCmBgYHtyfQp3cmVzdGxlcnMgPC0gZGJHZXRRdWVyeShjb25uID0gd3Jlc3RsaW5nX2RiX2Nvbm5lY3Rpb24sIHN0YXRlbWVudCA9ICJTRUxFQ1QgKiBGUk9NIHdyZXN0bGVycyIpCgpWaWV3KHdyZXN0bGVycykKCmRiRGlzY29ubmVjdChjb25uID0gd3Jlc3RsaW5nX2RiX2Nvbm5lY3Rpb24pCgpgYGAKCgpkYkNvbCB0aGVzZSB0d28gKGNoZWNrIHdoYXQgdGhlIHByb3BlciBmdW5jdGlvbiBuYW1lIGlzLCBpdCdzIGluIHRoZSBub3RlcykgdG8gZmluZCBvdXQgd2hhdCB0aGUgbmFtZSBvZiB3aGF0IHlvdSdyZSBzZWxlY3RpbmcgaXMuIApkYlJvdwoKCiMgMS4yCgpTaW5jZSBhYm92ZSBkaWRuJ3Qgd29yayBJJ20gbm93IGdvaW5nIHRvIGJlIHdyaXRpbmcgd2hhdCBJIGJlbGlldmUgaXMgdGhlIGNvcnJlY3QgY29kZSAoSSdsbCBhZGQgdGhlIHJlbW90ZSBkZXRhaWxzIHRvIGNyZWRlbnRpYWxzIGp1c3Qgbm90IHJlYWxseXl5eXkgc3VyZSB3aHkgdGhlIGFib3ZlIGRpZG4ndCB3b3JrIEknbGwgdHJ5IGdldCBpdCBiZWZvcmUgbXkgZmluYWwgY29tbWl0IGJ1dCB5ZSkuIAoKQWZ0ZXIgSSd2ZSBhZGRlZCBuZXcgZGV0YWlscyB0byBteSBjcmVkZW50aWFscyBkb2M6CgpgYGB7cn0KaG9tZV9sb2NhdGlvbiA8LSBTeXMuZ2V0ZW52KCJIT01FIikKY3JlZGVudGlhbHNfbG9jYXRpb24gPC0gcGFzdGUwKGhvbWVfbG9jYXRpb24sICIvY3JlZGVudGlhbHMuUiIpCnNvdXJjZShjcmVkZW50aWFsc19sb2NhdGlvbikKYGBgCgpgYGB7cn0Kd3Jlc3RsaW5nX2RiX2Nvbm5lY3QgPC0gZGJDb25uZWN0KGRydiA9IFBvc3RncmVTUUwobWF4LmNvbiA9IDIpLCB1c2VyID0gcmVtb3RlX3dyZXN0bGluZ19wb3N0Z3Jlc3FsX3VzZXJuYW1lLCBwYXNzd29yZCA9IHJlbW90ZV93cmVzdGxpbmdfcG9zdGdyZXNxbF9wYXNzd29yZCwgZGJuYW1lID0gJ212aGJkZ2RrJywgaG9zdCA9ICdtYW5ueS5kYi5lbGVwaGFudHNxbC5jb20nKQpgYGAKCgpgYGB7cn0KcmVtb3RlX3dyZXN0ZXJzIDwtIGRiR2V0UXVlcnkoY29ubiA9IHdyZXN0bGluZ19kYl9jb25uZWN0LCBzdGF0ZW1lbnQgPSAiU0VMRUNUICogRlJPTSB3cmVzdGxlcnMiKQpgYGAKCgoKYGBge3J9CmRiRGlzY29ubmVjdChjb25uID0gd3Jlc3RsaW5nX2RiX2Nvbm5lY3Rpb24pCmBgYAoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgo=</div>
 
 
 

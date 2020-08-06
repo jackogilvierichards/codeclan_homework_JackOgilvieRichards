@@ -115,7 +115,7 @@ Find the mean number of characters that a CodeClan tweet contains.
 
 cctweets %>%
   mutate(media_type = replace_na(media_type, "text")) %>%
-  summarise(media_type, n(favorite_count)) %>%
+  summarise(media_type, n(favorite_count))
   
 
 

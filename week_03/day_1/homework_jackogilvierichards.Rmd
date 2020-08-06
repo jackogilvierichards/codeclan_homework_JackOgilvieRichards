@@ -53,7 +53,7 @@ Let’s first investigate the calories of different drinks. Select the variables
 
 starbucks_menu_q2 <- starbucks_menu_raw %>%
   select(Beverage_category, Beverage, Beverage_prep, Calories) %>%
-  filter(Calories != FALSE)
+  filter(Calories != FALSE) # little bit unclear, explain if you have to do stuff like not equal to not...
 
 head(starbucks_menu_q2)
 ```
@@ -166,7 +166,8 @@ starbucks_menu_q5_mean
 
 
 
-mean(starbucks_menu_q3$Calories)
+mean(starbucks_menu_q3$Calories) # you were on the right track, you just need to make an extra variable for this then compare
+                                 # the grouped pipe mean calories with the overall mean
 
 ```
 
@@ -189,6 +190,10 @@ Which is the best type of coffee drink to get if you’re worried about consumin
 
 
 ```{r}
+
+
+
+
 
 ```
 

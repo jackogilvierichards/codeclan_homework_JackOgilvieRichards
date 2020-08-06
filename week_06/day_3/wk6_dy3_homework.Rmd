@@ -1,0 +1,66 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+
+library(janitor)
+library(infer)
+library(tidyverse)
+
+```
+
+
+```{r}
+
+ames_data <- read_csv("data/ames.csv")
+
+```
+
+
+```{r}
+
+ames_data <- clean_names(ames_data)
+
+```
+
+```{r}
+
+ames_data %>%
+  select(lot_area) %>%
+  ggplot() +
+  aes(x=lot_area) +
+  geom_histogram(bins = 200, col = "white")
+
+
+```
+
+
+looks kind of normal with a positive skewed distribution
+
+
+```{r}
+
+
+bootstrap_ame <- ames_data %>%
+  specify(response = lot_area) %>%
+  generate(reps = 10000, type = "bootstrap") %>%
+  calculate(stat = "mean") %>%
+  visualise()
+  
+  
+  
+  
+ # select(lot_area) %>%
+ # rep_sample_n(size = length(lot_area), replace = TRUE, reps = 10000) %>%
+ # summarise(mean_lot_area = mean(lot_area)) %>%
+  
+  
+  
+  
+  
+  
+```
+
+

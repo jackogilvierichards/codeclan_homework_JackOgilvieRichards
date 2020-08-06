@@ -24,14 +24,27 @@ Connecting to database...
 
 ```{r}
 wrestling_db_connection <- dbConnect(drv = PostgreSQL(max.con = 2), user = postgresql_username, password = postgresql_password, dbname = 'wrestling', host = 'localhost')
+
+rm(postgresql_password, postgresql_username)
+
+
 ```
 
 Queries for Local connection:
 
 ```{r}
-wrestlers <- dbGetQuery(conn = wrestling_db_connection, statement = "SELECT * FROM wrestling")
+wrestlers <- dbGetQuery(conn = wrestling_db_connection, statement = "SELECT * FROM wrestlers")
+
+View(wrestlers)
+
+dbDisconnect(conn = wrestling_db_connection)
 
 ```
+
+
+dbCol these two (check what the proper function name is, it's in the notes) to find out what the name of what you're selecting is. 
+dbRow
+
 
 # 1.2
 
@@ -51,7 +64,7 @@ wrestling_db_connect <- dbConnect(drv = PostgreSQL(max.con = 2), user = remote_w
 
 
 ```{r}
-remote_wresters <- dbGetQuery(conn = wrestling_db_connect, statement = "SELECT * FROM wrestling")
+remote_wresters <- dbGetQuery(conn = wrestling_db_connect, statement = "SELECT * FROM wrestlers")
 ```
 
 

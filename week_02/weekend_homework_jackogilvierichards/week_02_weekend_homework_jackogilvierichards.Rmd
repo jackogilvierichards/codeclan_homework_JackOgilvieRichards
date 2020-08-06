@@ -52,6 +52,7 @@ SELECT
   *,
   CONCAT(first_name, ' ', last_name) AS full_name
 FROM employees 
+WHERE first_name IS NOT NULL AND last_name IS NOT NULL -- thanks dylan
 
 ```
 
@@ -69,7 +70,8 @@ SELECT
   employees.email,
   teams.name AS team_name
 FROM employees, teams
-WHERE team_id = teams.id
+WHERE team_id = teams.id 
+-- don't do this, just left and inner join on the employees team_id bit
 
 ```
 
@@ -113,17 +115,17 @@ SELECT
   teams.name, 
   COUNT(employees.id) AS num_employees
 FROM teams
-LEFT OUTER JOIN employees
+LEFT JOIN employees
 ON teams.id = employees.team_id
-WHERE employees.team_id = teams.id
 GROUP BY teams.name
-ORDER BY num_employees DESC NULLS LAST,
-         teams.name
-
+ORDER BY num_employees DESC NULLS LAST
 
 
 
 ```
+
+
+
 
 
 AcmeCorp management want to send an email survey to each of their employees. However, they are worried that some of the employees may not receive the email either because their email addresses may be invalid (in that they don’t contain an ‘@’ symbol), or they may not have a stored email address at all. Can you find all these employees?
@@ -188,7 +190,7 @@ FROM employees AS e
 LEFT JOIN teams ON e.team_id = teams.id
 WHERE first_name ILIKE '_'
 GROUP BY teams.name
-ORDER BY num_employees DESC NULLS LAST LIMIT 1
+ORDER BY num_employees DESC NULLS LAST
 
 
 ```
@@ -214,6 +216,9 @@ ORDER BY num_employees DESC NULLS LAST LIMIT 1
 
 
 
+```{r}
+dbDisconnect(db_connect)
+```
 
 
 

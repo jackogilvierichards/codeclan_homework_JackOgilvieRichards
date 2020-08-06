@@ -22,7 +22,7 @@ day_of_week
 Question 2
 
 ```{r part_01_Q2_working}
-day_of_week_factor <- factor(day_of_week)
+day_of_week_factor <- as.factor(day_of_week)
 names(stock_prices) <- day_of_week
 named_stock_prices <- stock_prices
 ```

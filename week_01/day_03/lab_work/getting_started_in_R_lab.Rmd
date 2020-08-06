@@ -1,0 +1,264 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# Getting Started with R Lab
+
+# 1_Learning_Objectives
+
+Be able to demonstrate all the concepts from the pre-course
+Be able to demonstrate best practice coding
+Be able to demonstrate competent use of the RStudio IDE
+Duration - 4 hours
+
+Answer these questions in notebook
+
+Remember to make a project.
+Remember to use your best coding practices
+
+General Package Installs:
+
+```{r "Installing Packages 1"}
+install.packages("styler")
+install.packages("plyr")
+library(styler)
+```
+
+
+
+# 2_Vectors
+
+#2.1_Making_Vectors
+
+
+Source for Data is a Google search of 
+
+
+
+```{r "Weather Vectors"}
+weather_temp               <- c(13, 16, 17, 16, 14)
+weather_chance_of_rain     <- c(0.5, 0.2, 0.8, 0.4, 0.6)
+weather_cloud_cover        <- c("Mostly Cloudy", "Showers", "Showers", "Showers", "Partly Cloudy")
+weather_cloud_cover_factor <- as.factor(c("Mostly Cloudy", "Showers", "Showers", "Showers", "Partly Cloudy"))
+```
+
+Kept names with weather pretext, put percentage values of precipitation into decimal (nominal) objects and made a factor for my cloud cover vector. 
+
+Answers:
+
+```{r}
+weather_temp
+weather_chance_of_rain
+weather_cloud_cover
+weather_cloud_cover_factor
+```
+
+
+#2.2_Naming_Vectors
+
+```{r "Naming Vectors}
+days_of_week <- c("Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+
+names(weather_temp)               <- days_of_week
+names(weather_chance_of_rain)     <- days_of_week
+names(weather_cloud_cover)        <- days_of_week
+names(weather_cloud_cover_factor) <- days_of_week
+```
+
+Slack me for any questions on this step. 
+
+Answers:
+```{r}
+weather_temp
+weather_chance_of_rain
+weather_cloud_cover
+weather_cloud_cover_factor
+```
+
+
+
+#2.3_Means
+
+```{r "Means"}
+mean_temp <- mean(weather_temp)
+mean_chance_of_rain <- mean(weather_chance_of_rain)
+```
+
+I kept both vectors as decimal values in 2.1 so calculations such as the mean do not provide any errors. 
+
+Answers: 
+
+```{r}
+mean_temp
+mean_chance_of_rain
+```
+
+
+
+# 2.4_Selecting_Vectors
+
+```{r "Selecting Vectors"}
+
+weather_temp[weather_temp>mean_temp]
+weather_temp[weather_chance_of_rain <= mean_chance_of_rain]
+weather_cloud_cover[-3:-1]
+
+```
+
+Bad way of selecting for the cloud cover, could check out notes for smarter options. 
+
+
+# 2.5_Putting_It_Together
+
+Answers 1-6:
+
+```{r "Spelling Test"}
+library(plyr)
+test_results <- c(6, 7, 9, 7, 9, 3, 9, 7, 3, 8, 10, 5, 5, 9, 7, 5, 9, 8, 9, 5)
+num_test_marks <- sum(test_results)
+average_test_mark <- mean(test_results)
+highest_test_mark <- max(test_results)
+lowest_test_mark <- min(test_results)
+frequency_of_test_marks <- c(count(test_results)["freq"])
+percentage_of_test_marks <- paste((100*test_results)/10, "%")
+strong_test_marks <- sum(test_results>=8)
+
+```
+
+
+```{r}
+num_test_marks
+average_test_mark
+highest_test_mark
+lowest_test_mark
+frequency_of_test_marks
+percentage_of_test_marks
+percentage_of_test_marks <- paste((100*test_results)/10, "%")
+strong_test_marks
+
+```
+
+
+# Part 3
+
+#3.1_Creating_a_Matrix
+
+
+```{r}
+matrix(list(wk1_temp, wk2_temp))
+```
+
+
+```{r}
+wk1_temp <- (weather_temp)
+wk2_temp <- c(16, 15, 16, 17, 17)
+ten_day_forecast_matrix <- matrix(list(wk1_temp, wk2_temp), nrow == 2, ncol == 5, dimnames = list("Week_1", "Week_2")) 
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Part 4
+
+# Factors
+
+```{r}
+weather_cloud_cover_factor
+days_of_week_factor <- ordered(days_of_week)
+days_of_week_factor
+weather_temp[days_of_week_factor>"Saturday"]
+```
+
+levels = ordered days of week, you need an extra
+
+
+
+# Part 5
+
+
+#5.1_Creating_data_frames
+
+```{r "Data Frames"}
+five_day_forecast_data <- data.frame("Temperature (°)" = weather_temp, "Chance_of_Rain (%)" = weather_chance_of_rain, "Cloud_Cover" = weather_cloud_cover, "Day_of_Week" = days_of_week_factor)
+five_day_forecast_data
+```
+
+
+Here lies the to-be-written rm chunk to kill all my poor beautiful vector babies. 
+
+
+```{r}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Part 6
+
+#6.1_Creating_Lists
+
+```{r}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Part 7
+
+#7.1_Harder_Questions
+
+```{r}
+number_of_sides <- 1000
+triangle_number <- (number_of_sides*(number_of_sides+1))/2
+triangle_number
+```
+
+
+```{r}
+
+```
+
+
+
+
+
+
+
+
+
