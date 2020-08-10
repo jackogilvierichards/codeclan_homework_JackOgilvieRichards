@@ -1,0 +1,392 @@
+---
+title: "Hypothesis tests & probability - homework"
+author: "Jack Aldred Ogilvie-Richards"
+output: html_notebook
+---
+
+# 1 MVP
+
+## Libraries and Data
+
+```{r Libraries, include=FALSE}
+library(skimr)
+library(infer)
+library(janitor)
+library(tidyverse)
+```
+
+```{r Loading Data}
+
+mammal_sleep_patterns <- msleep
+
+
+```
+
+
+## 1.1 Hypothesis testing - practical
+
+First I'm using the skim function from `skimr` to have a general look at the data and the columns present. 
+
+```{r Looking at Data}
+
+skim(mammal_sleep_patterns)
+#View(mammal_sleep_patterns)
+
+
+```
+
+```{r histogram}
+
+mammal_sleep_patterns %>%
+  filter(!is.na(sleep_total)) %>%
+  ggplot(aes(x = sleep_total)) +
+  geom_histogram(bins = 50, col = "white")
+
+
+```
+
+A useful thing to note before I comment on the distribution of values is that the number of rows isn't effected by my filter and so I know that there are no `NA` values in `sleep_total`. 
+
+
+```{r boxplot}
+
+mammal_sleep_patterns %>%
+  ggplot(aes(x = sleep_total)) +
+  geom_boxplot()
+
+```
+
+
+While it's nothing to call home about, I'd argue that it does resemble a unimodal distribution with a wide spread of values, perhaps with a right skew (although that's a little strong for a suggestion). 
+
+Box plot implies there are no dangerous outliers that are swaying the distribution - as such we shall continue to analysis the following questions:
+
+
+### Jabberwockies - are they sleepy or are they lively?
+
+"A jabberwock, through fright and fear;
+
+may sleep an hour, 
+
+Or 7, per year. 
+
+Or night they said.
+
+that code of clan;
+
+so perhaps they might.
+
+For 7 hours,
+
+sleep peacefully.
+
+Tonight."
+
+--
+
+
+In terms of a statistical test, if we say that we would have no reason to believe a mammal sleeps differently from a Jabberwock, it follows that we should attempt to compare if mammal `sleep_total` is indeed different or not.
+
+From a Jabberwock. 
+
+#### Working
+
+$\alpha$ = 0.05
+
+H0: `sleep_total` == 7
+
+Ha: `sleep_total` =/= 7
+
+We'll find our observed average sleep for mammals first:
+
+```{r 1.1.1 observed statistic}
+
+observed_statistic_msleep <- mammal_sleep_patterns %>%
+  summarise(mean_sleep = mean(sleep_total))
+
+```
+
+
+Now we'll bootstrap our data into a distribution; 10000 iterations ought to do it (and I tried 100,000 as well):
+
+```{r 1.1.1 null distribution}
+
+mammal_null_distribution <- mammal_sleep_patterns %>%
+  specify(response = sleep_total) %>%
+  hypothesise(null = "point", mu = 7) %>%
+  generate(reps = 10000, type = "bootstrap") %>%
+  calculate(stat = "mean")
+
+mammal_null_distribution
+
+```
+
+Let's see how we're doing:
+
+```{r 1.1.1 p-value normal plot}
+mammal_null_distribution %>%
+  visualise(bins = 50) +
+  shade_p_value(obs_stat = observed_statistic_msleep$mean_sleep, direction = "both")
+```
+
+Okay, that's not looking very likely is it? What's our p-value then?
+
+
+```{r p-value}
+
+mammal_p_value <- mammal_null_distribution %>%
+  get_p_value(obs_stat = observed_statistic_msleep$mean_sleep, direction = "both")
+
+mammal_p_value
+
+```
+
+#### Conclusion
+
+We have an extremely small p-value (so small we can't actually calculate it) - this implies that the observed statistic is highly unlikely to occur given the null hypothesis and consequently:
+
+Reject the Null Hypothesis (p << $\alpha$)
+
+
+### Are Omnivores statistically heavier sleepers than herbivores?
+
+
+#### Working
+
+
+H0: `omni_sleep` - `herbi_sleep` == 0
+
+Ha: `omni_sleep` - `herbi_sleep` > 0
+
+```{r 1.1.2 filtering and grouping}
+
+
+onmi_herbi_sleep <- mammal_sleep_patterns %>%
+  select(vore, sleep_total)  %>%
+  filter(vore == "omni" | vore == "herbi") %>%
+  group_by(vore) #%>%
+  #summarise(mean_diff = mean(sleep_total))
+
+
+
+```
+
+
+```{r 1.1.2 observed statistic}
+omni_herbi_almost_obs_stat <- onmi_herbi_sleep %>%
+  summarise(mean(sleep_total)) 
+```
+
+```{r}
+omni_herbi_obs_stat <- omni_herbi_almost_obs_stat %>%
+  summarise(omni_herbi_almost_obs_stat[2]) 
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+#### Conclusions
+
+Problems have arisen in my ability to code out this question in time - I hope to get some help in completion through reading the solutions or the review this morning. 
+
+### Is there a statistically significant proportion of domesticated mammals?
+
+#### Working
+
+
+alpha = 0.05
+
+h0: prop_domesticated == 0.05
+ha: prop_domesticated > 0.05
+
+
+
+```{r proportion defining}
+
+mammal_domesticated_obs_stat <- mammal_sleep_patterns %>%
+  group_by(conservation) %>%
+  filter(!is.na(conservation)) %>%
+  filter(conservation == "domesticated") %>%
+  summarise(prop = n()/nrow(mammal_sleep_patterns))
+
+```
+
+
+```{r}
+
+mammal_domesticated_prop <- mammal_sleep_patterns %>%
+  filter(!is.na(conservation)) %>%
+  mutate(domestication_flagged = ifelse(conservation == "domesticated", "domesticated", "not_domesticated"))
+
+
+
+```
+
+
+```{r}
+
+null_distribution_mammal_prop <- mammal_domesticated_prop %>%
+  specify(response = domestication_flagged, success = "domesticated") %>%
+  hypothesise(null = "point", p = 0.05) %>%
+  generate(reps = 10000, type = "simulate") %>%
+  calculate(stat = "prop")
+
+```
+
+
+```{r}
+
+null_distribution_mammal_prop %>%
+  visualise(bins = 30) +
+  shade_p_value(obs_stat = mammal_domesticated_obs_stat[[2]], direction = "greater")
+
+```
+
+
+```{r}
+
+null_distribution_mammal_prop %>%
+  get_p_value(obs_stat = mammal_domesticated_obs_stat[[2]], direction = "greater")
+
+
+```
+
+
+#### Conclusion
+
+There is moderately statistically significant evidence to suggest that the null hypothesis should be rejected, 
+
+as 0.01 < 0.0193 < 0.05 == $\alpha$
+
+
+## 1.2 Hypothesis testing - interpretation
+
+
+### Scenario 1.2.1
+
+#### Scenario
+
+You work for a independent coffee shop. You’ve performed a small survey in the local town and found that 40% of the people you randomly asked were aware of your shop in the town. You then conduct a marketing campaign by flyering local venues and targeting advertisements on social media. Finally you conduct a second small random survey in the town, asking if people are aware of your coffee shop. You want to test the hypothesis that the campaign has significantly increased awareness of the shop.
+
+
+#### Interpretation
+
+
+Before completing my interpretation, it is worth noting the significance level here has been selected to be 0.05, with a calculated p-value of 0.07. 
+
+
+Null hypothesis: There has been no change in the awareness of the townsfolk and there will still be only 40% of those questioned saying they know the coffee shop. In statistical terms, this means: H.0. : proportion == 0.4
+
+
+Alternative hypothesis: There has been a statistically significant change in the awareness of the townsfolk as a result of the marketing campaign and over 40% of the people surveyed are aware of the coffee shop. Statistically speaking, this means: H.Alt. : proportion > 0.4
+
+
+We will reach the conclusion that we reject the null hypothesis if the probability of a Type I error is less than the significance level, which has been assigned at a 5% (0.05) level. We use a permutation method with repetition allowed, which shuffles the participants with their responses in the new survey and completes a new sample, of which a proportion of positive awareness is taken and noted before a new permutation is taken. My recommendation would be to take ~10000 samples through the permutation method and investigate the p-value for the observed statistic in the previous survey to be applied to the distribution of permuted samples. If the p-value for the observed statistic 
+
+
+### Scenario 1.2.2
+
+
+#### Scenario
+
+
+You work for a website design company and have performed an A/B test on the position of a banner on a website page promoting a particular item. In the current test, the first group continues to be shown the banner at the right hand side of the webpage (its usual position) while the test group is shown it at the top of the page. The performance metric we will be testing is click through rate (CTR) on the banner, i.e. what proportion of users click on the banner?
+
+
+PS: `A/B testing A method comparing two versions of a web page, email, flyer or other marketing device against each other to determine which version performs better. As it is essentially a controlled experiment, the design should try to ensure that the groups experiencing both versions of the marketing device are need to establish that the two groups are equivalent and representative of the population.`
+
+
+#### Interpretation
+
+
+
+
+
+
+### Scenario 1.2.3
+
+
+#### Scenario
+
+
+You work as an analyst for a car manufacturing company - they have specific standards they must meet for standards and regulation purposes. You have been asked to check the quality control of the manufacture of a particular car part. The part must have a width of 145mm, with a small (given) level of tolerance. You have been given data on a sample of 1,000 parts produced over the period of a week.
+
+
+#### Interpretation
+
+
+
+
+
+
+
+# Extension
+
+## Market Basket Analysis
+
+### Debrief
+
+
+Association rule mining is regularly used by retailers to find associations between products that people purchase, perhaps for an online retailer, the items that people put together in their ‘baskets’, and in a bricks and mortar retailer, the items purchased together in a single transaction. The aim is to find recurring patterns in the transactions which the retailer can then use to do targeted marketing of items, seeking to increase ‘cross sales’. Rules mining of this sort can also be used in other industries beyond retail to identify patterns in data.
+
+
+Market basket analysis (MBA) uses association rule mining. It looks at the association of items occurring in a single basket, and so won’t look at your purchases over time, but only items that are purchased together in a single purchase (i.e. a ‘basket’). As a good example, you may have seen the ‘Frequently Bought Together’ section on Amazon (and other sites), which looks at items you’ve got in your basket and suggests items that other people commonly have in their baskets when they also have these items.
+
+
+MBA differs from recommendation algorithms because the association rules look only at items bought together in a single purchase, they don’t use any characteristics of the purchaser to profile them (e.g. ‘Based on purchases by people like you, you may also like…’) or how their purchases vary over time. The association rules used for MBA use the probability principles we learned on Monday this week.
+
+
+
+
+
+
+
+
+```{r}
+
+
+
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
