@@ -24,6 +24,7 @@ mammal_sleep_patterns <- msleep
 
 
 ## 1.1 Hypothesis testing - practical
+### Basic setup
 
 First I'm using the skim function from `skimr` to have a general look at the data and the columns present. 
 
@@ -161,7 +162,7 @@ Ha: `omni_sleep` - `herbi_sleep` > 0
 ```{r 1.1.2 filtering and grouping}
 
 
-onmi_herbi_sleep <- mammal_sleep_patterns %>%
+omni_herbi_sleep <- mammal_sleep_patterns %>%
   select(vore, sleep_total)  %>%
   filter(vore == "omni" | vore == "herbi") %>%
   group_by(vore) #%>%
@@ -173,8 +174,19 @@ onmi_herbi_sleep <- mammal_sleep_patterns %>%
 
 
 ```{r 1.1.2 observed statistic}
-omni_herbi_almost_obs_stat <- onmi_herbi_sleep %>%
-  summarise(mean(sleep_total)) 
+
+# here is a case where using the infer package to calculate the obs stat is so much more helpful - I'm commenting out my original code and copying dels
+
+#omni_herbi_almost_obs_stat <- onmi_herbi_sleep %>%
+ # summarise(mean(sleep_total)) 
+
+omni_herbi_almost_obs_stat <- omni_herbi_sleep %>%
+  specify(sleep_total ~ vore) %>%
+  calculate((stat = "diff in means", order = c("omni", "herbi")))
+  
+#hypothesise(null = "independance") %>%
+# generate(reps = , type = "permute"))
+
 ```
 
 ```{r}
@@ -226,7 +238,8 @@ mammal_domesticated_obs_stat <- mammal_sleep_patterns %>%
 ```{r}
 
 mammal_domesticated_prop <- mammal_sleep_patterns %>%
-  filter(!is.na(conservation)) %>%
+  filter(!is.na(conservation)) %>% 
+  # due to the small size of the survey, leaving the nulls is probably wiser so as to not effect the proportion of those we know to be domesticated as opposed to the possibility that a null implies it could or couldn't be domesticated thus implying it's unsafe to include them
   mutate(domestication_flagged = ifelse(conservation == "domesticated", "domesticated", "not_domesticated"))
 
 
@@ -239,7 +252,7 @@ mammal_domesticated_prop <- mammal_sleep_patterns %>%
 null_distribution_mammal_prop <- mammal_domesticated_prop %>%
   specify(response = domestication_flagged, success = "domesticated") %>%
   hypothesise(null = "point", p = 0.05) %>%
-  generate(reps = 10000, type = "simulate") %>%
+  generate(reps = 20000, type = "simulate") %>%
   calculate(stat = "prop")
 
 ```
@@ -267,7 +280,7 @@ null_distribution_mammal_prop %>%
 
 There is moderately statistically significant evidence to suggest that the null hypothesis should be rejected, 
 
-as 0.01 < 0.0193 < 0.05 == $\alpha$
+as 0.01 < 0.01835 < 0.05 == $\alpha$
 
 
 ## 1.2 Hypothesis testing - interpretation
@@ -292,7 +305,7 @@ Null hypothesis: There has been no change in the awareness of the townsfolk and 
 Alternative hypothesis: There has been a statistically significant change in the awareness of the townsfolk as a result of the marketing campaign and over 40% of the people surveyed are aware of the coffee shop. Statistically speaking, this means: H.Alt. : proportion > 0.4
 
 
-We will reach the conclusion that we reject the null hypothesis if the probability of a Type I error is less than the significance level, which has been assigned at a 5% (0.05) level. We use a permutation method with repetition allowed, which shuffles the participants with their responses in the new survey and completes a new sample, of which a proportion of positive awareness is taken and noted before a new permutation is taken. My recommendation would be to take ~10000 samples through the permutation method and investigate the p-value for the observed statistic in the previous survey to be applied to the distribution of permuted samples. If the p-value for the observed statistic 
+We will reach the conclusion that we reject the null hypothesis if the probability of a Type I error is less than the significance level, which has been assigned at a 5% (0.05) level. We use a permutation method with repetition allowed, which shuffles the participants with their responses in the new survey and completes a new sample, of which a proportion of positive awareness is taken and noted before a new permutation is taken. My recommendation would be to take ~10000 samples through the permutation method and investigate the p-value for the observed statistic in the previous survey to be applied to the distribution of permuted samples. The p-value for the observed statistic is 0.07, which is greater than our permitted significance level. 
 
 
 ### Scenario 1.2.2
