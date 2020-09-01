@@ -1,0 +1,235 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+library(tidyverse)
+```
+
+
+```{r}
+
+
+proj_management <- read.csv("data/project_management.csv")
+
+
+```
+
+
+```{r}
+
+proj_management %>%
+  ggplot() +
+  aes(x = estimated_length, y = actual_length, label = 1:nrow(proj_management)) +
+  geom_point() +
+  geom_text()
+
+
+
+```
+There is a number of possible outliers (24, 18, tops of the groups at (x = 13, 16, 18)) - the obvious one in this case is '5', which is way above the general trend of values; this is an influential outlier. 
+
+
+
+```{r}
+
+
+plot(lm(actual_length ~ estimated_length, data = proj_management))
+
+
+```
+
+
+```{r}
+
+plot(lm(actual_length ~ estimated_length, data = proj_management), which = 4)
+
+
+
+```
+
+Clearly the 5th value is outside Cook's Distance in the initial Residuals vs Leverage plot, furthermore when we observe a plot of Cook's distance values and see 5 as our main contributor. 
+
+
+Now let's remove the outlier, before that though let's just see what the changes are when we remove on of the smaller outliers we identified. 
+
+```{r}
+
+# just to see the current intercept value
+lm(proj_management$actual_length ~ proj_management$estimated_length)
+
+
+
+```
+
+
+
+```{r}
+
+new_proj_management <- proj_management[-18, ]
+
+
+```
+
+
+```{r}
+
+lm(new_proj_management$actual_length ~ new_proj_management$estimated_length)
+
+
+```
+
+
+A small change from the intercept before removing the outlier, but not an insignificant one. 
+
+This will likely not change much about the fitting. 
+
+```{r}
+
+new_proj_management %>%
+  ggplot() +
+  aes(x = estimated_length, y = actual_length) +
+  geom_point()
+
+```
+
+
+```{r}
+
+plot(lm(new_proj_management$actual_length ~ new_proj_management$estimated_length))
+
+
+
+```
+
+
+```{r}
+
+plot(lm(proj_management$actual_length ~ proj_management$estimated_length))
+
+
+```
+
+As you can see, there is very little change to the Residuals vs Leverage lines compared to the original regression.
+
+
+
+
+Let's try with the influential outlier in row 5
+
+
+```{r}
+
+
+new_proj_management <- proj_management[-5, ]
+
+
+
+```
+
+
+```{r}
+
+
+lm(new_proj_management$actual_length ~ new_proj_management$estimated_length)
+
+
+```
+
+A huge change in intercept value. 
+
+
+```{r}
+
+new_proj_management %>%
+  ggplot() +
+  aes(x = estimated_length, y = actual_length) +
+  geom_point()
+
+```
+
+
+```{r}
+
+plot(lm(new_proj_management$actual_length ~ new_proj_management$estimated_length))
+
+
+
+```
+
+
+```{r}
+
+plot(lm(proj_management$actual_length ~ proj_management$estimated_length))
+
+
+```
+
+
+In the new dataset with the influential outlier omitted we can see the lines differ hugely, with the new regression keep a rather steady Reg. vs Lev.  line. 
+
+
+
+
+
+
+```{r}
+
+
+plot(lm(actual_length ~ estimated_length, data = proj_management))
+
+
+
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+
+
+
+
