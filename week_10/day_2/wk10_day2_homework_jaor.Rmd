@@ -1,0 +1,104 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+
+library(tidyverse)
+library(ggiraphExtra)
+library(GGally)
+
+```
+
+
+```{r}
+
+diamonds_raw <- read_csv("data/diamonds.csv")
+
+glimpse(diamonds_raw)
+
+```
+
+
+```{r}
+
+summary(diamonds_raw)
+
+
+
+```
+
+
+```{r}
+
+ggpairs(diamonds_raw)
+
+
+
+```
+
+
+```{r}
+
+diamonds1 <- diamonds_raw %>%
+  select(-c(x, y, z))
+
+
+```
+
+
+```{r}
+
+ggpairs(diamonds1)
+
+
+```
+
+
+```{r}
+
+diamonds1 %>%
+  ggplot() +
+  aes(x = carat, y = price) +
+  geom_point()
+
+
+```
+
+
+```{r}
+
+plot(lm(diamonds1$price ~ diamonds1$carat))
+
+```
+
+
+```{r}
+
+
+
+
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
