@@ -1,0 +1,116 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+
+```{r}
+
+library(tidyverse)
+library(cluster)
+library(factoextra)
+library(dendextend)
+
+```
+
+```{r}
+
+computers_raw <- read_csv("data/computers.csv")
+
+```
+
+
+```{r}
+
+summary(computers_raw)
+
+```
+
+
+```{r}
+
+ggplot(computers_raw) +
+  aes(x = ram, y = hd) +
+  geom_point()
+
+
+
+```
+
+
+An initial look at the data shows that it may be suitable for clustering, let's scale it then look again
+
+
+
+```{r}
+
+computers_scale <- computers_raw %>%
+  mutate_if(is.numeric, scale)
+
+
+```
+
+
+```{r}
+
+ggplot(computers_scale) +
+  aes(x = ram, y = hd) +
+  geom_point()
+
+
+```
+
+
+better, there appears initially to be 4, potentially 5 clusters, 3/4 columns on the left and a larger spaced cluster to the top right. 
+
+
+```{r}
+
+
+
+
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+
