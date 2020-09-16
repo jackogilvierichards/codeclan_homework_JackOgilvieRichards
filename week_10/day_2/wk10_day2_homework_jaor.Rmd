@@ -77,21 +77,34 @@ plot(lm(diamonds1$price ~ diamonds1$carat))
 
 ```{r}
 
-
+model <- lm(price ~ carat + clarity + carat:clarity, data = diamonds1)
 
 
 ```
 
 
 ```{r}
+
+summary(model)
 ```
 
 
 ```{r}
+
+diamonds %>%
+  ggplot(aes(x=price)) +
+  geom_boxplot()
+
+
 ```
 
 
 ```{r}
+
+
+
+
+
 ```
 
 

@@ -1874,14 +1874,30 @@ plot(lm(diamonds1$price ~ diamonds1$carat))</code></pre>
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5tb2RlbCA8LSBsbShwcmljZSB+IGNhcmF0ICsgY2xhcml0eSArIGNhcmF0OmNsYXJpdHksIGRhdGEgPSBkaWFtb25kczEpXG5cblxuYGBgIn0= -->
+<pre class="r"><code>
+model &lt;- lm(price ~ carat + clarity + carat:clarity, data = diamonds1)
+</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5zdW1tYXJ5KG1vZGVsKVxuYGBgIn0= -->
+<pre class="r"><code>
+summary(model)</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5kaWFtb25kcyAlPiVcbiAgZ2dwbG90KGFlcyh4PXByaWNlKSkgK1xuICBnZW9tX2JveHBsb3QoKVxuXG5cbmBgYCJ9 -->
+<pre class="r"><code>
+diamonds %&gt;%
+  ggplot(aes(x=price)) +
+  geom_boxplot()
+</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
@@ -1898,7 +1914,7 @@ plot(lm(diamonds1$price ~ diamonds1$carat))</code></pre>
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiUiBOb3RlYm9vayIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKCmBgYHtyfQoKbGlicmFyeSh0aWR5dmVyc2UpCmxpYnJhcnkoZ2dpcmFwaEV4dHJhKQpsaWJyYXJ5KEdHYWxseSkKCmBgYAoKCmBgYHtyfQoKZGlhbW9uZHNfcmF3IDwtIHJlYWRfY3N2KCJkYXRhL2RpYW1vbmRzLmNzdiIpCgpnbGltcHNlKGRpYW1vbmRzX3JhdykKCmBgYAoKCmBgYHtyfQoKc3VtbWFyeShkaWFtb25kc19yYXcpCgoKCmBgYAoKCmBgYHtyfQoKZ2dwYWlycyhkaWFtb25kc19yYXcpCgoKCmBgYAoKCmBgYHtyfQoKZGlhbW9uZHMxIDwtIGRpYW1vbmRzX3JhdyAlPiUKICBzZWxlY3QoLWMoeCwgeSwgeikpCgoKYGBgCgoKYGBge3J9CgpnZ3BhaXJzKGRpYW1vbmRzMSkKCgpgYGAKCgpgYGB7cn0KCmRpYW1vbmRzMSAlPiUKICBnZ3Bsb3QoKSArCiAgYWVzKHggPSBjYXJhdCwgeSA9IHByaWNlKSArCiAgZ2VvbV9wb2ludCgpCgoKYGBgCgoKYGBge3J9CgpwbG90KGxtKGRpYW1vbmRzMSRwcmljZSB+IGRpYW1vbmRzMSRjYXJhdCkpCgpgYGAKCgpgYGB7cn0KCgoKCmBgYAoKCmBgYHtyfQpgYGAKCgpgYGB7cn0KYGBgCgoKYGBge3J9CmBgYAoKCmBgYHtyfQpgYGAKCgpgYGB7cn0KYGBgCgo=</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiUiBOb3RlYm9vayIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKCmBgYHtyfQoKbGlicmFyeSh0aWR5dmVyc2UpCmxpYnJhcnkoZ2dpcmFwaEV4dHJhKQpsaWJyYXJ5KEdHYWxseSkKCmBgYAoKCmBgYHtyfQoKZGlhbW9uZHNfcmF3IDwtIHJlYWRfY3N2KCJkYXRhL2RpYW1vbmRzLmNzdiIpCgpnbGltcHNlKGRpYW1vbmRzX3JhdykKCmBgYAoKCmBgYHtyfQoKc3VtbWFyeShkaWFtb25kc19yYXcpCgoKCmBgYAoKCmBgYHtyfQoKZ2dwYWlycyhkaWFtb25kc19yYXcpCgoKCmBgYAoKCmBgYHtyfQoKZGlhbW9uZHMxIDwtIGRpYW1vbmRzX3JhdyAlPiUKICBzZWxlY3QoLWMoeCwgeSwgeikpCgoKYGBgCgoKYGBge3J9CgpnZ3BhaXJzKGRpYW1vbmRzMSkKCgpgYGAKCgpgYGB7cn0KCmRpYW1vbmRzMSAlPiUKICBnZ3Bsb3QoKSArCiAgYWVzKHggPSBjYXJhdCwgeSA9IHByaWNlKSArCiAgZ2VvbV9wb2ludCgpCgoKYGBgCgoKYGBge3J9CgpwbG90KGxtKGRpYW1vbmRzMSRwcmljZSB+IGRpYW1vbmRzMSRjYXJhdCkpCgpgYGAKCgpgYGB7cn0KCm1vZGVsIDwtIGxtKHByaWNlIH4gY2FyYXQgKyBjbGFyaXR5ICsgY2FyYXQ6Y2xhcml0eSwgZGF0YSA9IGRpYW1vbmRzMSkKCgpgYGAKCgpgYGB7cn0KCnN1bW1hcnkobW9kZWwpCmBgYAoKCmBgYHtyfQoKZGlhbW9uZHMgJT4lCiAgZ2dwbG90KGFlcyh4PXByaWNlKSkgKwogIGdlb21fYm94cGxvdCgpCgoKYGBgCgoKYGBge3J9CgoKCgoKYGBgCgoKYGBge3J9CmBgYAoKCmBgYHtyfQpgYGAKCg==</div>
 
 
 

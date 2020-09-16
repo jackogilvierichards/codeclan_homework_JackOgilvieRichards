@@ -11,6 +11,7 @@ library(tidyverse)
 library(cluster)
 library(factoextra)
 library(dendextend)
+library(broom)
 
 ```
 
@@ -67,33 +68,58 @@ better, there appears initially to be 4, potentially 5 clusters, 3/4 columns on 
 
 ```{r}
 
-
+computers_scale <- computers_scale %>%
+  select(ram, hd)
 
 
 ```
 
 
 ```{r}
+
+fviz_nbclust(computers_scale, kmeans, method = "wss", nstart = 25)
+
 ```
 
 
 ```{r}
+
+fviz_nbclust(computers_scale, kmeans, method = "silhouette", nstart = 25)
+
+
 ```
 
 
 ```{r}
+
+fviz_nbclust(computers_scale, kmeans, method = "gap_stat")
+
+
 ```
 
 
 ```{r}
+
+clustered_computers <- kmeans(computers_scale, 2, nstart =2)
+
+
 ```
 
 
 ```{r}
+
+clusters <- augment(clustered_computers, computers_raw)
+
+
 ```
 
 
 ```{r}
+
+ggplot(clusters, aes(x = hd, y = ram, colour = .cluster)) +
+  geom_point()
+
+
 ```
 
 

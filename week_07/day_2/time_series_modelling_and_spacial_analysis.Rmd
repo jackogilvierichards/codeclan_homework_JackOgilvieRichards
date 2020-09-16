@@ -153,7 +153,7 @@ bike_hire_forecast %>%
 ```{r}
 
 smaller_bike_hires <- bike_data_explicit %>%
-    filter(as.integer(lubridate::year(hires_per_day)) >= 2018)
+    filter(()) >= 2018)
 
 
 
@@ -165,10 +165,32 @@ our_new_forecast %>%
 ```
 
 
+
+
+
 ```{r}
-
-
-
+#CONORS CODE
+bikes_training <- new_bikes_by_date %>% 
+  filter_index("2018-01-01" ~ "2018-10-16")
+#fit model on my training data
+fit_training <- bikes_training %>% 
+  model(
+    snaive_model = SNAIVE(num_of_bikes),
+    mean_model = MEAN(num_of_bikes),
+    naive_model = NAIVE(num_of_bikes)
+  )
+#new forecast based on the training data
+forecast_training <- fit_training %>% 
+fabletools::forecast(h = 120)
+9:58
+forecast_training %>%
+  autoplot(bikes_training, level = NULL) + 
+  autolayer(filter_index(new_bikes_by_date, "2018-01-01" ~ .), color = "black")
+9:59
+accuracy_model <- fabletools::accuracy(forecast_training, new_bikes_by_date)
+accuracy_model %>% 
+  arrange(RMSE)
+#CONORS CODE
 
 
 ```
